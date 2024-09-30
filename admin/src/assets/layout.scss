@@ -1,0 +1,215 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: none !important;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+#nprogress {
+  .bar {
+    background: var(--el-color-primary) !important;
+    z-index: 99999 !important;
+  }
+}
+
+.layout-container {
+  width: 100%;
+  height: 100%;
+  .layout-sidebar {
+    background: var(--theme-menu-bg-color);
+    border-right: var(--theme-border-color-light) 1px solid;
+    height: inherit;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden !important;
+    .el-scrollbar__view {
+      overflow: hidden;
+    }
+    // 侧边栏展开
+    &.aside-expend {
+      width: 230px !important;
+      transition: width 0.3s ease;
+    }
+    // 侧边栏收缩
+    &.aside-compress {
+      width: 64px !important;
+      transition: width 0.3s ease;
+    }
+  }
+  .layout-header {
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(40px + var(--theme-header-height));
+  }
+  .layout-main {
+    padding: 0 !important;
+    overflow: hidden;
+    width: 100%;
+    background-color: var(--theme-main-bg-color);
+    .layout-card{
+      min-height: calc(100vh - 70px - var(--theme-header-height));
+    }
+  }
+  .layout-scrollbar {
+    padding: 15px;
+  }
+}
+
+// 图片验证码
+#Js_image_warp{
+  background-color: rgba(0,0,0,.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#Js_image_main{
+  width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(0,0,0,.3);
+  border-radius: 5px;
+  text-align: center;
+  padding: 30px;
+  #Js_image_input_warp{
+    position: relative;
+    div#Js_image_input_warp_fix{
+      background: transparent;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      cursor: text;
+    }
+  }
+  div#Js_image_close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #999;
+    font-weight: bold;
+  }
+  img{
+    width: 120px;
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+  input{
+    width: 100%;
+    height: 35px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0 10px;
+    outline: none;
+  }
+  #Js_image_btn{
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    margin: 10px auto;
+    background-color: var(--el-color-primary);
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+  }
+}
+
+.home_container {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f2f5;
+  overflow-x: hidden;
+  .tip {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    color: #fc8f4b;
+    background-color: #fff9ed;
+    .icon-style {
+      margin-right: 5px;
+      font-size: 18px;
+    }
+  }
+
+  .bgw-box {
+    position: relative;
+    padding: 20px;
+    background-color: #fff;
+  }
+
+  .right-h {
+    display: flex;
+    align-items: center;
+    .title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+
+  .home-card{
+    padding: 20px 15px;
+    color: #333333;
+    .home-card-title{
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 20px;
+    }
+    .home-card-warp{
+      display: flex;
+      .home-card-item{
+        flex: 1;
+        text-align: center;
+        .home-card-num{
+          color: var(--num-color);
+          font-size: 28px;
+          font-weight: bold;
+          line-height: 28px;
+          padding: 20px 0 15px 0;
+        }
+      }
+    }
+  }
+}
+.el-dialog{
+  max-width: 100% !important;
+}
+
+

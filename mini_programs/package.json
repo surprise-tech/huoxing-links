@@ -1,0 +1,18 @@
+{
+    "id": "tuyao-dianfei",
+    "name": "电费计算器",
+    "displayName": "电费计算器",
+    "version": "0.01",
+    "description": "电费计算器",
+    "keywords": [
+        "电费计算器",
+        "计算器",
+        "表单"
+    ],
+    "dcloudext": {
+        "category": [
+            "uni-app前端模板",
+            "uni-app前端项目模板"
+        ]
+    }
+}

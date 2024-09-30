@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta id="description" name="description" content="" />
+	<link id="favicon" rel="shortcut icon" type="image/x-icon" href="" />
+	<title></title>
+	<style>
+		* {
+			width: 100%;
+			height: 100%;
+			margin: 0 auto;
+			text-align: center;
+		}
+	</style>
+</head>
+	<body>
+		<script type="text/javascript">
+			/**
+			 * 需要修改域名
+			 * host 不带机构com等机构后缀，例如 www.baidu.com 即 www.baidu
+			 * domain 机构后缀：com、cn等
+			 * path不用修改
+			 */
+			var host = "你的域名"
+			var domain = "com"
+			var path = "j"
+
+			var code = new URLSearchParams(window.location.search).get('code')
+			var iframe = document.createElement('iframe');
+			iframe.src =`https://${host}.${domain}/${path}/${code}`
+			iframe.style.width = '100%';
+			iframe.style.height = '100%';
+			iframe.style.border = 'none';
+			document.body.appendChild(iframe);
+
+			addEventListener('message', function (e) {
+				document.title = e.data.title;
+				document.getElementById('description').setAttribute("content", e.data.description);
+				document.getElementById('favicon').setAttribute("href", e.data.icon);
+
+				if (e.data.type === 4) {
+					window.open(e.data.target, '_blank');
+				}
+			}, false);
+		</script>
+	</body>
+</html>

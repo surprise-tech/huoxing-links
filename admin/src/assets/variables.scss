@@ -1,0 +1,17 @@
+:root {
+  --theme-header-height: 60px;
+  --theme-border-color-light: #f1f2f3;
+  --theme-logo-text-color: var(--el-color-primary);
+
+  --theme-menu-text-color: #333333;
+  --theme-menu-bg-color: #ffffff;
+  --theme-menu-border-color: var(--el-color-primary);
+  --theme-menu-hover-color: var(--el-color-primary);
+  --theme-menu-hover-bg-color: var(--el-color-primary-light-9);
+
+  --theme-header-bg-color: #ffffff;
+  --theme-header-text-color: #444444;
+  --theme-header-hover-color: rgba(0, 0, 0, 0.1);
+
+  --theme-main-bg-color: #f0f2f5;
+}

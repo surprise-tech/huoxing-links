@@ -1,0 +1,52 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [{
+			"path": "pages/views/tools/font",
+			"style": {
+				"navigationBarTitleText": "简繁转换",
+				"navigationBarBackgroundColor": "#F8F8F8"
+			}
+		},
+
+		{
+			"path": "pages/views/tools/electric",
+			"style": {
+				"navigationBarTitleText": "电费计算器",
+				"navigationBarBackgroundColor": "#F8F8F8"
+			}
+		},
+
+
+		{
+			"path": "pages/views/tools/house",
+			"style": {
+				"navigationBarTitleText": "房贷计算器",
+				"navigationBarBackgroundColor": "#F8F8F8"
+			}
+		},
+      {
+        "path": "pages/views/tools/news",
+        "style": {
+          "navigationBarTitleText": "房贷计算器",
+          "navigationBarBackgroundColor": "#F8F8F8"
+        }
+      }
+	],
+	"style": "v2",
+	"sitemapLocation": "sitemap.json",
+
+	"permission": {
+		"scope.userLocation": {
+			"desc": "你的位置信息将用于小程序位置接口的效果展示"
+		}
+	},
+	"globalStyle": {
+		"backgroundTextStyle": "light",
+		"navigationBarBackgroundColor": "#fff",
+		"navigationBarTitleText": "Weixin",
+		"navigationBarTextStyle": "black"
+	},
+	"subPackages": []
+}

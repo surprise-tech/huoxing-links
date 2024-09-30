@@ -1,0 +1,327 @@
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.margin-auto {
+  margin: 0 auto;
+}
+
+.arco-spin {
+  display: block !important;
+}
+/* flex 横向 */
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* flex 纵向 */
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* flex不换行 */
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/* 垂直居中 */
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+/* 垂直居中 */
+.col-center {
+  align-items: center;
+}
+
+/* 顶部对齐 */
+.col-top {
+  align-items: flex-start;
+}
+
+/* 底部对齐 */
+.col-bottom {
+  align-items: flex-end;
+}
+
+/* 左边对齐 */
+.row-left {
+  justify-content: flex-start;
+}
+
+/* 水平居中 */
+.row-center {
+  justify-content: center;
+}
+
+/* 右边对齐 */
+.row-right {
+  justify-content: flex-end;
+}
+
+/* 水平两端对齐，项目之间的间隔都相等 */
+.row-between {
+  justify-content: space-between;
+}
+
+/* 水平每个项目两侧的间隔相等，所以项目之间的间隔比项目与父元素两边的间隔大一倍 */
+.row-around {
+  justify-content: space-around;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* 文字左对齐 */
+.text-left {
+  text-align: left;
+}
+
+/* 文字居中对齐 */
+.text-center {
+  text-align: center;
+}
+
+/* 文字右对齐 */
+.text-right {
+  text-align: right;
+}
+
+/* 相对定位 */
+.relative {
+  position: relative;
+}
+
+/* 绝对定位 */
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.border-radius {
+  border-radius: 8px;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+/* 吸顶 */
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+.p-30 {
+  padding: 30px;
+}
+
+.p-20 {
+  padding: 20px;
+}
+
+.color-ffff {
+  color: #fff;
+}
+
+.bgw {
+  background-color: #fff;
+}
+
+.line-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main-font-color {
+  color: #333;
+}
+
+.m-table-card {
+  width: 100%;
+  height: 60px;
+  padding: 0 20px 0 40px;
+  background: linear-gradient(80deg, #d0e6ff 0%, #fff 98%);
+}
+
+.m-table-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.m-table-title::after {
+  position: absolute;
+  top: 6px;
+  left: -20px;
+  width: 4px;
+  height: 16px;
+  background: #1571f2;
+  content: '';
+}
+
+.m-table-right-title {
+  font-size: 14px;
+  color: #1571f2;
+  cursor: pointer;
+}
+
+.m-table-head {
+  padding: 15px 0;
+  font-size: 14px;
+}
+
+.m-table-item {
+  padding: 15px;
+  font-size: 14px;
+}
+
+.m-border-bottom {
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.m-cursor {
+  cursor: pointer;
+}
+
+.m-calendar-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.m-calendar-title {
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.m-table {
+  margin-top: 20px;
+  margin-left: 30px;
+}
+
+.m-pagination {
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+
+
+.m-color-2D7F {
+  color: #2d7ff3;
+}
+
+.m-color-9999 {
+  color: #999;
+}
+.m-tab-btn {
+  color: #2d7ff3;
+  cursor: pointer;
+}
+.m-l-10 {
+  margin-left: 10px;
+}
+.m-tab-btn-delete {
+  color: #ff4d4f;
+  cursor: pointer;
+}
+.m-footer-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  width: 100% !important;
+  height: 56px;
+  padding: 0 24px;
+  line-height: 56px;
+  text-align: right;
+  background: #fff;
+  -webkit-box-shadow: 0 -1px 2px rgb(0 0 0%);
+  box-shadow: 0 -1px 2px rgb(0 0 0%);
+  border-top: 1px solid #e8e8e8;
+}
+
+
+.box-shadow {
+  box-shadow: 0 0 26px 0 rgba(194, 212, 255, 0.22);
+}
+
+.personNumber {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px 4px 4px 4px;
+  background-color: #16c2b8;
+  color: #ffffff;
+  width: 46px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.arco-modal-body {
+  position: static !important;
+}
+
+.arco-modal-footer {
+  text-align: right !important;
+}
+
+
+.m-color-6666 {
+  color: #666666;
+}
+.m-t-30 {
+  margin-top: 30px;
+}
+.m-t-20 {
+  margin-top: 20px;
+}
+.m-l-20{
+  margin-left: 20px;
+}
+
+.m-b-20{
+  margin-bottom: 20px;
+}
+.m-r-20{
+  margin-right: 20px;
+}
+.m-t-10{
+  margin-top: 10px;
+}
+
+.container {
+  padding: 0 20px 20px 20px;
+}
+.font-20{
+  font-size: 20px;
+}
+.font-18{
+  font-size: 18px;
+}
+.font-16{
+  font-size: 16px;
+}
+.font-14{
+  font-size: 14px;
+}
+.font-12{
+  font-size: 12px;
+}
+.text-center{
+  text-align: center;
+}
+.text-main{
+  color: #2b6bff;
+}

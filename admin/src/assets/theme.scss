@@ -1,0 +1,37 @@
+// 侧边栏暗色
+.sidebar-dark{
+  --theme-logo-text-color: #e7e3e3;
+  --theme-main-bg-color: #000;
+  --theme-menu-text-color: rgb(255 255 255 / 66%);
+  --theme-menu-bg-color: #1B1D29;
+  --theme-menu-hover-color: #eee;
+  --theme-menu-hover-bg-color: var(--el-color-primary);
+  .el-menu-item.is-active{
+    border-right: none;
+    right: 0;
+  }
+  &.layout-sidebar {
+    border-right: none;
+  }
+}
+.layout-columns{
+  .sidebar-dark {
+    .sidebar-logo {
+      border-bottom: #444 1px solid !important;
+    }
+  }
+}
+
+// 顶栏主题色
+.header-theme{
+  --theme-header-bg-color: var(--el-color-primary);
+  --theme-header-text-color: rgb(255 255 255 / 80%);
+  --theme-header-hover-color: rgba(0, 0, 0, 0.1);
+  --theme-menu-text-color: #ddd;
+  --theme-logo-text-color: #fff;
+  --theme-menu-hover-color: #fff;
+  --el-menu-active-color: #fff;
+  .el-dropdown{
+    color: inherit;
+  }
+}

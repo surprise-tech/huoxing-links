@@ -1,0 +1,64 @@
+@import 'element-plus/theme-chalk/dark/css-vars.css';
+
+html.dark {
+  --el-text-color-primary: #d0d0d0;
+
+  --el-color-primary-light-1: var(--el-color-primary-dark-1) !important;
+  --el-color-primary-light-2: var(--el-color-primary-dark-2) !important;
+  --el-color-primary-light-3: var(--el-color-primary-dark-3) !important;
+  --el-color-primary-light-4: var(--el-color-primary-dark-4) !important;
+  --el-color-primary-light-5: var(--el-color-primary-dark-5) !important;
+  --el-color-primary-light-6: var(--el-color-primary-dark-6) !important;
+  --el-color-primary-light-7: var(--el-color-primary-dark-7) !important;
+  --el-color-primary-light-8: var(--el-color-primary-dark-8) !important;
+  --el-color-primary-light-9: var(--el-color-primary-dark-9) !important;
+
+  *{
+    --theme-main-bg-color: var(--el-bg-color);
+
+    --theme-border-color-light: var(--el-border-color-dark);
+    --theme-logo-text-color: var(--el-text-color-primary);
+
+    --theme-menu-text-color: rgb(255 255 255 / 66%);
+    --theme-menu-bg-color: var(--el-bg-color);
+    --theme-menu-hover-color: #eee;
+    --theme-menu-hover-bg-color: var(--el-color-primary);
+
+    --theme-header-bg-color: var(--el-bg-color);
+    --theme-header-text-color: #eee;
+    --theme-header-hover-color: var(--el-border-color-dark);
+  }
+
+  .el-popover.el-popper{
+    background: var(--el-bg-color-overlay);
+  }
+  .tabs-container{
+    background: none;
+  }
+  .columns-sub-menu {
+    background: none;
+  }
+
+  // 编辑器
+  --w-e-textarea-bg-color: #333;
+  --w-e-textarea-color: #fff;
+  .v-md-editor textarea{
+    color: #fff;
+  }
+  .v-md-editor .scrollbar__wrap{
+    background-color: #444;
+    color: #999;
+  }
+
+  .sidebar-dark {
+    .el-menu-item.is-active{
+      border-right: 2px solid var(--theme-menu-border-color) !important;
+      position: relative !important;
+      right:1px !important;
+    }
+    &.layout-sidebar {
+      border-right: var(--theme-border-color-light) 1px solid !important;
+    }
+  }
+
+}

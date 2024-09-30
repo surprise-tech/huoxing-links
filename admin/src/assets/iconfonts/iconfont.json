@@ -1,0 +1,16 @@
+{
+  "id": "4509759",
+  "name": "蚂蚁快链",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8361887",
+      "name": "公告2",
+      "font_class": "gong-gao",
+      "unicode": "e6d7",
+      "unicode_decimal": 59095
+    }
+  ]
+}
