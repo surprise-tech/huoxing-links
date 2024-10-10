@@ -29,6 +29,7 @@ class LoginRequest extends FormRequest
         return [
             'username' => [
                 'required',
+                'exclude_if:username,admin',
                 $rule,
             ],
             'password' => 'required|min:6',
