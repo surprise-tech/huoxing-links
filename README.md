@@ -76,6 +76,12 @@ let baseUrl = "https://xxx.xxxxx.xxx"; // 后台请求域名改为你的域名
 
 
 ## 重要信息
+
+欢迎进群获取最新开发计划或交流技术
+如需进群请添加微信号
+微信号：tok4mi
+添加请备注：交流群
+
 项目合作洽谈，请联系客服微信（使用微信扫码添加好友，请注明来意）。
 
 ![](https://huoxing.tos-cn-shanghai.volces.com/2024/09/28/pehhLja89Gb0TIRWDkghVZ2mxwLd7uGiUq3NwK4P.png "微信")
