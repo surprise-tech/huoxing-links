@@ -87,4 +87,4 @@ let baseUrl = "https://xxx.xxxxx.xxx"; // 后台请求域名改为你的域名
 
 项目合作洽谈，请联系客服微信（使用微信扫码添加好友，请注明来意）。
 
-![](https://huoxing.tos-cn-shanghai.volces.com/2024/11/05/HFiFy0AaqSLxmlFb0RScBKgLtGVzC9xXb7M9HCJ5.jpg "微信")
+<img src="https://huoxing.tos-cn-shanghai.volces.com/2024/11/05/HFiFy0AaqSLxmlFb0RScBKgLtGVzC9xXb7M9HCJ5.jpg" width="400">
