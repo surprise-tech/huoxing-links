@@ -466,7 +466,7 @@
                 </div>
                 <div style="margin-left: 40px">
                     <div class="font-20 text-white">联系我们</div>
-                    <div class="mt-2 text-secondary font-14">公司地址：徐州市鼓楼区云创科技园A1-3层</div>
+                    <div class="mt-2 text-secondary font-14">公司地址：××××××××××</div>
                 </div>
                 <div class="line" style="margin-right: 100px"></div>
             </div>
@@ -475,9 +475,7 @@
             </div>
         </div>
         <div class="xlin"></div>
-        <div class="text-center text-secondary font-14 mt-3">Copyright © 2015-2024 徐州思莱特智能科技有限公司
-            苏ICP备2024095352号-3
-        </div>
+        <div class="text-center text-secondary font-14 mt-3">Copyright © ××××××××××有限公司</div>
     </div>
     <div class="show-below-1000 phoneFooter" style="display: none">
         <div class="row row-cols-sm-2 p-4">
@@ -485,7 +483,7 @@
                 <img class="weixin" src="/image/web-qr.png">
                 <div class="mt-3">
                     <div class="font-20 text-white">联系我们</div>
-                    <div class="mt-2 text-secondary font-14">公司地址：徐州市鼓楼区云创科技园C6-1层</div>
+                    <div class="mt-2 text-secondary font-14">公司地址：××××××××××</div>
                 </div>
             </div>
 
