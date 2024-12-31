@@ -23,17 +23,26 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        $code_mode = SystemConfig::get('send_code_mode');
-        $rule = $code_mode == CodeMode::Email->value ? 'email' : 'regex:/^1[3-9]\d{9}$/';
-
-        return [
+        $rules = [
             'username' => [
                 'required',
-                'exclude_if:username,admin',
-                $rule,
+                'exists:users,username',
             ],
             'password' => 'required|min:6',
         ];
+        $is_open = SystemConfig::get('verify_code_is_open');
+        if ($is_open) {
+            $code_mode = SystemConfig::get('send_code_mode');
+            $rule = $code_mode == CodeMode::Email->value ? 'email' : 'regex:/^1[3-9]\d{9}$/';
+
+            $rules['username'] = [
+                'required',
+                'exists:users,username',
+                $rule,
+            ];
+        }
+
+        return $rules;
     }
 
     public function messages(): array

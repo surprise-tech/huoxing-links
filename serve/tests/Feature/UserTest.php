@@ -3,12 +3,18 @@
 namespace Tests\Feature;
 
 use App\Enums\CommissionType;
+use App\Jobs\SendEmailJobs;
 use App\Models\User;
 use App\Models\VipPackage;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    public function test_send_mail()
+    {
+        SendEmailJobs::dispatch('724323954@qq.com', '123321');
+    }
+
     public function test_get_token()
     {
         dd($this->get_admin_token());

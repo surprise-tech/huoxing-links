@@ -53,6 +53,26 @@ class SystemInit extends Command
     {
         return [
             [
+                'slug' => 'web_site_title',
+                'value' => '蚂蚁快链-智慧引流工具',
+                'desc' => '网站名称',
+            ],
+            [
+                'slug' => 'web_site_logo',
+                'value' => '/image/toplogo.png',
+                'desc' => '网站logo浅色',
+            ],
+            [
+                'slug' => 'web_site_bottom_logo',
+                'value' => '/image/toplogo.png',
+                'desc' => '网站logo深色',
+            ],
+            [
+                'slug' => 'web_site_customer_service',
+                'value' => '/image/web-qr.png',
+                'desc' => '客服二维码',
+            ],
+            [
                 'slug' => 'is_give_vip',
                 'value' => 1,
                 'desc' => '开启注册赠送会员',

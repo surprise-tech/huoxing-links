@@ -24,33 +24,50 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        $code_mode = SystemConfig::get('send_code_mode');
-        $rule = $code_mode == CodeMode::Email->value ? 'email' : 'regex:/^1[3-9]\d{9}$/';
+        $is_open = SystemConfig::get('verify_code_is_open');
+        if ($is_open) {
+            $code_mode = SystemConfig::get('send_code_mode');
+            $rule = ($code_mode == CodeMode::Email->value) ? 'email' : 'regex:/^1[3-9]\d{9}$/';
+
+            return [
+                'username' => [
+                    'required',
+                    $rule,
+                    'unique:users,username',
+                ],
+                'password' => 'required|min:6|confirmed',
+                'captcha' => ['required', function (string $attribute, mixed $value, \Closure $fail) {
+                    $test_code = config('services.ali_sms.test_code');
+                    if (empty($test_code) || $value != $test_code) {
+                        $tel = $this->input('username');
+                        $captcha = Cache::get('sms_captcha_'.$tel);
+                        if ((int) $captcha !== (int) $value) {
+                            $fail('验证码错误！');
+                        }
+                    }
+                }],
+                'referral_code' => '', // 推荐码
+            ];
+        }
 
         return [
             'username' => [
                 'required',
-                $rule,
                 'unique:users,username',
             ],
             'password' => 'required|min:6|confirmed',
-            'captcha' => ['required', function (string $attribute, mixed $value, \Closure $fail) {
-                $test_code = config('services.ali_sms.test_code');
-                if (empty($test_code) || $value != $test_code) {
-                    $tel = $this->input('username');
-                    $captcha = Cache::get('sms_captcha_'.$tel);
-                    if ((int) $captcha !== (int) $value) {
-                        $fail('验证码错误！');
-                    }
-                }
-            }],
             'referral_code' => '', // 推荐码
         ];
     }
 
     public function messages(): array
     {
-        $txt = CodeMode::Email->value ? '邮箱' : '手机号';
+        $code_mode = SystemConfig::get('send_code_mode');
+        $is_open = SystemConfig::get('verify_code_is_open');
+        $txt = '用户名';
+        if (! empty($is_open)) {
+            $txt = ($code_mode === CodeMode::Email->value) ? '邮箱' : '手机号';
+        }
 
         return [
             'username.required' => "请输入{$txt}！",

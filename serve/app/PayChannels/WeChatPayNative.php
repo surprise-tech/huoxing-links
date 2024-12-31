@@ -2,6 +2,7 @@
 
 namespace App\PayChannels;
 
+use App\Services\SystemConfig;
 use EasyWeChat\Pay\Application;
 use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,21 @@ class WeChatPayNative
 
     public function __construct()
     {
-        $this->payApp = new Application(config('services.wechat_pay'));
+        $config = [
+            'appid' => SystemConfig::get('wechat_pay_app_id'),
+            'mch_id' => SystemConfig::get('wechat_pay_mch_id'),
+            'secret_key' => SystemConfig::get('wechat_pay_secret_key'),
+            // 商户证书
+            'private_key' => SystemConfig::get('wechat_pay_secret_key'),
+            'certificate' => SystemConfig::get('wechat_pay_certificate'),
+            /*'platform_certs' => [
+                storage_path('/certs/wechatpay.pem'),
+            ],*/
+            'http' => [
+                'throw' => false,
+            ],
+        ];
+        $this->payApp = new Application($config);
     }
 
     // 支付
