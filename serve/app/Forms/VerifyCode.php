@@ -11,8 +11,8 @@ class VerifyCode implements SimpleForm
     public function policy(Request $request): array
     {
         return $request->validate([
-            'verify_code_is_open' => 'nullable|boolen',
-            'send_code_mode' => 'nullable',
+            'verify_code_is_open' => 'required|boolen',
+            'send_code_mode' => 'nullable|integer|in:1,2', // 1短信2邮箱
             'ali_sms_key' => 'nullable',
             'ali_sms_secret' => 'nullable',
             'ali_sms_sign_name' => 'nullable',
