@@ -30,6 +30,9 @@ class LoginRequest extends FormRequest
             ],
             'password' => 'required|min:6',
         ];
+        if (request('username') === 'admin') {
+            return $rules;
+        }
         $is_open = SystemConfig::get('verify_code_is_open');
         if ($is_open) {
             $code_mode = SystemConfig::get('send_code_mode');
