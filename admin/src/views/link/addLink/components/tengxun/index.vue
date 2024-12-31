@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import useCurd from '@/hooks/curd'
 import FormModal from '@/components/FormModal.vue'
-import CreateOrLook from '@/views/link/addLink/components/qr/create-or-look.vue'
+import CreateOrLook from './create-or-look.vue'
 import OssImage from '@/components/OssImage.vue'
 import { copyLink } from '@/utils'
 import { ApiRenewalLink } from '@/api/comment'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import useUserStore from '@/stores/modules/user'
 
+const user = useUserStore()
 const props = defineProps<{
   type: any
 }>()
@@ -15,11 +16,11 @@ const { state, sizeChangeHandle, currentChangeHandle, showForm, submitForm, rese
   url: '/links',
   queryForm: {
     type: props.type,
-    page: 1
+    page: 11,
+    username: ''
   }
 })
 
-const user = useUserStore()
 </script>
 
 <template>
@@ -38,9 +39,10 @@ const user = useUserStore()
       </el-col>
       <el-col :xs="24" :sm="8" :md="8" :lg="6" class="m-b-20">
         <el-button type="primary" @click="research">搜索</el-button>
-        <el-button type="primary" :plain="true" @click="showForm">创建二维码</el-button>
+        <el-button type="primary" :plain="true" @click="showForm">创建卡片</el-button>
       </el-col>
     </el-row>
+
     <!--  表格  -->
     <el-table
       :data="state.dataList"
@@ -57,7 +59,7 @@ const user = useUserStore()
       <el-table-column prop="id" label="序号"></el-table-column>
       <el-table-column label="图片">
         <template #default="{ row }">
-          <oss-image :paths="row.icon ? [row.icon] : []" :width="60" :height="60" style="margin: 0 auto"></oss-image>
+            <oss-image :paths="row.icon ? [row.icon] : []" :width="60" :height="60" style="margin: 0 auto"></oss-image>
         </template>
       </el-table-column>
       <el-table-column prop="title" label="卡片标题"></el-table-column>
@@ -69,13 +71,13 @@ const user = useUserStore()
         </template>
       </el-table-column>
       <el-table-column prop="visit_uv_count" label="浏览量UV"></el-table-column>
+      <el-table-column prop="expired_at" label="到期时间"></el-table-column>
       <el-table-column prop="user.username" label="所属用户"></el-table-column>
       <el-table-column label="操作">
         <template #default="{ row }">
           <el-button type="primary" link @click="copyLink(row)">复制链接</el-button>
           <el-button type="primary" link @click="showForm(row.id)">编辑</el-button>
           <el-button type="primary" link @click="deleteHandle(row.id)">删除</el-button>
-
         </template>
       </el-table-column>
     </el-table>
@@ -94,7 +96,10 @@ const user = useUserStore()
     <form-modal
       v-if="state.formVisible === true"
       v-model:visible="state.formVisible"
-      width="1000"
+      width="1200"
+      :style="{
+        minWidth: '700px'
+      }"
       type="dialog"
       :title="state.detailData?.id ? '编辑' : '新增'"
       :loading="state.formLoading"

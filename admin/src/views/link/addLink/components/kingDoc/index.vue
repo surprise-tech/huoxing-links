@@ -18,24 +18,7 @@ const { state, sizeChangeHandle, currentChangeHandle, showForm, submitForm, rese
     page: 1
   }
 })
-// 续费
-const renewal = (id: number) => {
-  ElMessageBox.confirm('确定要续费一个月吗?这将要扣除1个创建个数', 'Warning', {
-    confirmButtonText: '确认',
-    cancelButtonText: '取消',
-    type: 'warning',
-    center: true
-  })
-    .then(() => {
-      ApiRenewalLink({
-        id: id
-      }).then(() => {
-        ElMessage.success('操作成功！')
-        research()
-      })
-    })
-    .catch(() => {})
-}
+
 const user = useUserStore()
 </script>
 
@@ -73,9 +56,9 @@ const user = useUserStore()
       :row-key="state.primaryKey"
     >
       <el-table-column prop="id" label="序号"></el-table-column>
-      <el-table-column label="图标">
+      <el-table-column label="图片">
         <template #default="{ row }">
-          <oss-image :paths="row.icon ? [row.icon] : []" :width="60" :height="60"></oss-image>
+          <oss-image :paths="row.icon ? [row.icon] : []" :width="60" :height="60" style="margin: 0 auto"></oss-image>
         </template>
       </el-table-column>
       <el-table-column prop="title" label="卡片标题"></el-table-column>

@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue","./public/config.json"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
@@ -9,6 +9,7 @@
       "@/*": ["./src/*"]
     },
     "types": ["element-plus/global"],
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
   }
 }

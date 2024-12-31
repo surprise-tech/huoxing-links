@@ -14,7 +14,7 @@ interface WX {
   title: string
   sub_title: string
   qr: QR[]
-  switch_type: number
+  switch_type?: number
   uv_limit_type: number
 }
 

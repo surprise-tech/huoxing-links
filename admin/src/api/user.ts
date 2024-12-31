@@ -48,3 +48,6 @@ export const ApiConsumeCard = (secret: string) => {
 export const ApiUserFix = (id: any, data: any) => {
   return http.put(`/users/${id}`, data)
 }
+export const ApiUploadBase64 = (data: any) => {
+  return http.post<any, any>('/material-base64', data)
+}

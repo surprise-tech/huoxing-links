@@ -21,7 +21,12 @@ export const ImagePath = (images: any) => {
 
   let newPath: any
   if (configStore.asset_url) {
-    newPath = configStore.asset_url + path
+    // asset_url 或者path第一位是否带有斜杠
+    if (path.indexOf('/') === 0 && configStore.asset_url.replace(/\/$/, '').length > 0) {
+      newPath = configStore.asset_url.slice(0, -1) + path
+    } else {
+      newPath = configStore.asset_url + path
+    }
   }
   return newPath
 }

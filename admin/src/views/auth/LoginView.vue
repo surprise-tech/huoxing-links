@@ -59,9 +59,24 @@ onMounted(() => {
     router.push('/home')
   }
 })
+const getImageUrl = (url: string, path: string) => {
+  // 判断url最后一位和路径的第一位是否有斜杠
+  if (url.substr(-1) != '/' && path.substr(0, 1) != '/') {
+    url = url + '/'
+  }
+  // 如果url最后一位有斜杠 或者 路径最后一位有斜杠就去掉一个
+  if (url.substr(-1) == '/' && path.substr(0, 1) == '/') {
+    url = url.substr(0, url.length - 1)
+  }
+  return url + path
+}
 </script>
 <template>
-  <div class="login-warp">
+  <div class="login-warp relative">
+    <div class="logo flex align-center">
+      <img class="img" :src="getImageUrl(configStore.asset_url, configStore.web_site_logo)" />
+      <div class="title">{{ configStore.web_site_title }}</div>
+    </div>
     <div class="login-right">
       <!--    登录页    -->
       <div class="login-main">
@@ -70,11 +85,26 @@ onMounted(() => {
             <el-icon><Back /></el-icon>
           </div>
           <h2 style="color: #000">欢迎登录</h2>
-          <el-form ref="loginFormRef" :disabled="loading.status" :model="loginData" @keyup.enter="submit(loginFormRef)">
-            <el-form-item prop="username" :rules="[{ required: true, message: '请输入账号', trigger: 'blur' }]">
-              <el-input v-model="loginData.username" placeholder="请输入账号" prefix-icon="el-icon-user" />
+          <el-form
+            ref="loginFormRef"
+            :disabled="loading.status"
+            :model="loginData"
+            @keyup.enter="submit(loginFormRef)"
+          >
+            <el-form-item
+              prop="username"
+              :rules="[{ required: true, message: '请输入账号', trigger: 'blur' }]"
+            >
+              <el-input
+                v-model="loginData.username"
+                placeholder="请输入账号"
+                prefix-icon="el-icon-user"
+              />
             </el-form-item>
-            <el-form-item prop="password" :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]">
+            <el-form-item
+              prop="password"
+              :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+            >
               <el-input
                 show-password
                 v-model="loginData.password"
@@ -83,8 +113,12 @@ onMounted(() => {
               />
             </el-form-item>
             <el-form-item>
-              <el-button class="login-btn" type="primary" @click="submit(loginFormRef)" :loading="loading.status"
-                >立即登录</el-button
+              <el-button
+                class="login-btn"
+                type="primary"
+                @click="submit(loginFormRef)"
+                :loading="loading.status"
+              >立即登录</el-button
               >
             </el-form-item>
           </el-form>
@@ -110,6 +144,24 @@ onMounted(() => {
   height: 100vh;
   width: 100%;
   background-image: url('@/assets/login/login-bg.png');
+  .logo {
+    position: absolute;
+    z-index: 7;
+    top: 40px;
+    left: 40px;
+    .img {
+      width: 60px;
+      height: 60px;
+      border-radius: 9999px;
+    }
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-left: 20px;
+      color: var(--el-color-primary);
+    }
+  }
+
   .login-right {
     position: relative;
     max-width: 100%;

@@ -4,12 +4,14 @@ import WX from '@/views/link/addLink/components/wx/index.vue'
 import KingDoc from '@/views/link/addLink/components/kingDoc/index.vue'
 import QR from '@/views/link/addLink/components/qr/index.vue'
 import FirmWx from '@/views/link/addLink/components/firmWx/index.vue'
+import TengXun from '@/views/link/addLink/components/tengxun/index.vue'
 import { onMounted, ref } from 'vue'
 import xcx from '@/assets/link/xcx.png'
 import jinshan from '@/assets/link/jinshan.png'
 import caoliao from '@/assets/link/caoliao.png'
 import qywx from '@/assets/link/qywx.png'
 import wx from '@/assets/link/wx.png'
+import tengxun from '@/assets/link/tengxun.png'
 import { userStore } from '@/stores'
 
 const tabsList = [
@@ -17,7 +19,9 @@ const tabsList = [
   { id: 2, name: '跳转到金山文档', icon: jinshan },
   { id: 3, name: '跳转到草料二维码', icon: caoliao },
   { id: 4, name: '跳转到企业微信', icon: qywx },
-  { id: 1, name: '跳转到小程序', icon: xcx }
+  { id: 1, name: '跳转到小程序', icon: xcx },
+  { id: 11, name: '跳转到腾讯优码', icon: tengxun },
+
 ]
 const user = userStore
 // tabs点击事件
@@ -53,6 +57,7 @@ onMounted(() => {
     <q-r v-if="type === 3" :type="type"></q-r>
     <firm-wx v-if="type === 4" :type="type"></firm-wx>
     <w-x v-if="type === 5" :type="type"></w-x>
+    <teng-xun v-if="type === 11" :type="type"></teng-xun>
   </el-card>
 </template>
 
