@@ -17,7 +17,13 @@ class AliDySms
 
     public function __construct()
     {
-        $this->config = config('services.ali_sms');
+        $config = [
+            'key' => SystemConfig::get('ali_sms_key'),
+            'secret' => SystemConfig::get('ali_sms_secret'),
+            'sign_name' => SystemConfig::get('ali_sms_sign_name'),
+            'test_code' => env('ALI_SMS_TEST_CODE'),
+        ];
+        $this->config = $config;
     }
 
     /**

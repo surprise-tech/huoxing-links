@@ -19,7 +19,6 @@ class BaseConfig implements SimpleForm
             'recommend_commission_2' => 'nullable|integer',
             'member_pay_commission_1' => 'nullable|integer', // 一级邀请人消费提成 1%
             'member_pay_commission_2' => 'nullable|integer', // 二级邀请人消费提成 1%
-            'send_code_mode' => 'required|integer|in:1,2', // 1短信2邮箱
         ]);
     }
 

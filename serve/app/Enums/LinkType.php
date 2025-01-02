@@ -10,6 +10,7 @@ enum LinkType: int
     case CLI_QR = 3;
     case WORK_WECHAT = 4;
     case LANDING_MINI = 5;
+    case QR_QQ = 11; // 腾讯优码
 
     // 获取所有的类型
     public static function getAllType(): array

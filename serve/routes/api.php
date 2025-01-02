@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CommissionController;
 use App\Http\Controllers\Api\ConfigController;
 use App\Http\Controllers\Api\DomainController;
 use App\Http\Controllers\Api\IndexController;
+use App\Http\Controllers\Api\JumpController;
 use App\Http\Controllers\Api\LinkController;
 use App\Http\Controllers\Api\MaterialCateController;
 use App\Http\Controllers\Api\MaterialController;
@@ -31,8 +32,8 @@ Route::post('/captcha/sms', [CaptchaController::class, 'sms']); // 获取短信�
 Route::post('/wechat/payment_notify', [WeChatPayNative::class, 'notify']); // 微信支付回调
 
 // 获取链接重定向目标
-Route::get('/link-target/{code}', [LinkController::class, 'target']); // 获取链接跳转地址
-Route::get('/link-show-qr/{code}', [LinkController::class, 'getShowQr']); // 显示的二维码信息
+Route::get('/link-target/{code}', [JumpController::class, 'target']); // 获取链接跳转地址
+Route::get('/link-show-qr/{code}', [JumpController::class, 'getShowQr']); // 显示的二维码信息
 
 // 登录用户都访问
 Route::middleware(ApiAuth::class)->group(function (Router $router) {
