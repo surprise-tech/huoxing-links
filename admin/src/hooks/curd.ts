@@ -403,6 +403,7 @@ export default function useCurd(options: ICurdOptions) {
     state.listLoading = true
     const arr = []
     for (const value in state.queryForm) {
+      //@ts-ignore
       arr.push(`${value}=${state.queryForm[value]}`)
     }
     const str = arr.join('&')

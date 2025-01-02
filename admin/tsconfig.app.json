@@ -11,5 +11,7 @@
     "types": ["element-plus/global"],
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "allowJs": true,
+    "noImplicitAny": false
   }
 }
