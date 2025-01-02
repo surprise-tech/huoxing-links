@@ -175,7 +175,8 @@ class JumpController extends Controller
                         'path' => data_get($cache, 'params.path'),
                         'query' => 'code='.data_get($link, 'code').'&device_uid='.$device_uid,
                     ],
-                ])->toArray();
+                ])
+                    ->toArray();
                 if (isset($res['errcode']) && $res['errcode'] === 40001) {
                     $cache = new Psr16Cache(new FilesystemAdapter('easywechat', 1500));
                     $cache->clear();
