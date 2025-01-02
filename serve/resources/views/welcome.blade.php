@@ -24,7 +24,7 @@
         <div class="main ">
             <div class=" navigation bg-white  d-flex justify-content-between">
                 <div class="d-flex flex-row align-items-center" style="position: relative">
-                    <img src="/image/toplogo.png"/>
+                    <img src="{!! \Illuminate\Support\Facades\Storage::url(\App\Services\SystemConfig::get('web_site_logo')) !!}"/>
                     <div class="d-flex flex-row hide-below-1000">
                         <div class="navigation-item home" onclick="scrollAndHighlight('home')">首页</div>
                         <div class="navigation-item features" onclick="scrollAndHighlight('features')">产品功能</div>
@@ -452,7 +452,7 @@
     <div class="footer hide-below-1000">
         <div class="mainCard d-flex justify-content-between p-4">
             <div>
-                <img class="logo" src="{!! \App\Services\SystemConfig::get('web_site_bottom_logo') !!}">
+                <img class="logo" src="{!! \Illuminate\Support\Facades\Storage::url(\App\Services\SystemConfig::get('web_site_bottom_logo')) !!}">
             </div>
             <div class="d-flex justify-content-between flex-1">
                 <div class="line" style="margin-left: 100px"></div>
@@ -471,7 +471,7 @@
                 <div class="line" style="margin-right: 100px"></div>
             </div>
             <div>
-                <img class="weixin" src="{!! \App\Services\SystemConfig::get('web_site_customer_service') !!}">
+                <img class="weixin" src="{!! \Illuminate\Support\Facades\Storage::url(\App\Services\SystemConfig::get('web_site_customer_service')) !!}">
             </div>
         </div>
         <div class="xlin"></div>
@@ -480,7 +480,8 @@
     <div class="show-below-1000 phoneFooter" style="display: none">
         <div class="row row-cols-sm-2 p-4">
             <div>
-                <img class="weixin" src="{!! \App\Services\SystemConfig::get('web_site_customer_service') !!}">
+                <img class="weixin" src="{!! \Illuminate\Support\Facades\Storage::url(\App\Services\SystemConfig::get('web_site_customer_service')) !!}">
+
                 <div class="mt-3">
                     <div class="font-20 text-white">联系我们</div>
                     <div class="mt-2 text-secondary font-14">公司地址：××××××××××</div>
