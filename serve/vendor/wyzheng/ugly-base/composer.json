@@ -1,0 +1,47 @@
+{
+    "name": "wyzheng/ugly-base",
+    "description": "ugly laravel base package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "wyzheng",
+            "email": "wyzheng1997@163.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": ">=10",
+        "ext-bcmath": "*"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.10",
+        "orchestra/testbench": "^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ugly\\Base\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ugly\\Base\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ugly\\Base\\UglyBaseServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "pint": "vendor/bin/pint",
+        "test": "vendor/bin/phpunit"
+    }
+}
