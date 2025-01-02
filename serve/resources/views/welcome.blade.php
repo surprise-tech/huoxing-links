@@ -6,7 +6,7 @@
     <script>
         // window.location = '/web/#/login'
     </script>
-    <title>火星快链-智慧引流工具</title>
+    <title>{!! \App\Services\SystemConfig::get('web_site_title') !!}</title>
     <link rel="stylesheet" href="/css/css.css">
     <link rel="stylesheet" href="/css/boot.css">
     <style>
@@ -452,7 +452,7 @@
     <div class="footer hide-below-1000">
         <div class="mainCard d-flex justify-content-between p-4">
             <div>
-                <img class="logo" src="/image/logo.png">
+                <img class="logo" src="{!! \App\Services\SystemConfig::get('web_site_bottom_logo') !!}">
             </div>
             <div class="d-flex justify-content-between flex-1">
                 <div class="line" style="margin-left: 100px"></div>
@@ -471,7 +471,7 @@
                 <div class="line" style="margin-right: 100px"></div>
             </div>
             <div>
-                <img class="weixin" src="/image/web-qr.png">
+                <img class="weixin" src="{!! \App\Services\SystemConfig::get('web_site_customer_service') !!}">
             </div>
         </div>
         <div class="xlin"></div>
@@ -480,7 +480,7 @@
     <div class="show-below-1000 phoneFooter" style="display: none">
         <div class="row row-cols-sm-2 p-4">
             <div>
-                <img class="weixin" src="/image/web-qr.png">
+                <img class="weixin" src="{!! \App\Services\SystemConfig::get('web_site_customer_service') !!}">
                 <div class="mt-3">
                     <div class="font-20 text-white">联系我们</div>
                     <div class="mt-2 text-secondary font-14">公司地址：××××××××××</div>

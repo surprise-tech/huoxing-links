@@ -4,11 +4,13 @@ namespace App\Jobs;
 
 use App\Jobs\Middleware\RateLimited;
 use App\Mail\SendEmail;
+use App\Services\SystemConfig;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
 
@@ -31,6 +33,13 @@ class SendEmailJobs implements ShouldQueue
         $this->to = $to;
         $this->code = $code;
         $this->title = $title ?? '邮箱验证码';
+
+        Config::set('mail.mailers.smtp.host', SystemConfig::get('mail_host'));
+        Config::set('mail.mailers.smtp.port', SystemConfig::get('mail_port'));
+        Config::set('mail.mailers.smtp.username', SystemConfig::get('mail_username'));
+        Config::set('mail.mailers.smtp.password', SystemConfig::get('mail_password'));
+        Config::set('mail.from.address', SystemConfig::get('mail_from_address'));
+        Config::set('mail.from.name', SystemConfig::get('mail_from_name'));
     }
 
     public function middleware()

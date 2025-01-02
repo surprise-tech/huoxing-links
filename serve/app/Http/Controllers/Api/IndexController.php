@@ -114,19 +114,22 @@ class IndexController extends Controller
         $configs = [
             'code_mode' => SystemConfig::get('send_code_mode'),
             'package' => VipPackage::query()->orderBy('level')->get(['id', 'name', 'price', 'config']),
+            'web_site_customer_service' => SystemConfig::get('web_site_customer_service'),
+            'web_site_title' => SystemConfig::get('web_site_title'),
+            'web_site_logo' => SystemConfig::get('web_site_logo'),
+            'web_site_bottom_logo' => SystemConfig::get('web_site_bottom_logo'),
+            'asset_url' => Storage::url(''),  // 图片路径
         ];
 
         $user = auth('api')->user();
         if ($user) {
-            // 图片路径
-            $configs['asset_url'] = Storage::url('');
             // 安全域名
             // $configs['domains'] = Domain::query()->where('enable', true)->get(['id', 'title']);
             // 小程序 (区分是否有权限使用平台小程序池)
             $configs['mini_programs'] = MiniProgram::query()
                 ->where(
-                    fn($query) => $query->where('user_id', $user->id)
-                    ->when($user->getPackageConfig('pre_min'), fn($query) => $query->orWhere('is_pre_min', true))
+                    fn ($query) => $query->where('user_id', $user->id)
+                        ->when($user->getPackageConfig('pre_min'), fn ($query) => $query->orWhere('is_pre_min', true))
                 )
                 ->get(['id', 'name']);
         }
