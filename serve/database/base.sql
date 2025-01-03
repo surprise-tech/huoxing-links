@@ -510,13 +510,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
--- Records of users
--- ----------------------------
-BEGIN;
-INSERT INTO `users` (`id`, `username`, `password`, `status`, `type`, `credit`, `accumulate_credit`, `commission`, `accumulate_commission`, `vip_id`, `agent_id`, `level_id`, `start_at`, `end_at`, `parent_id`, `referral_code`, `created_at`, `updated_at`) VALUES (1, 'admin', '$2y$12$KWrBehWoDo4.96vkU4NT8OqMCKID7NYR9HD58oBR5RInS.w0aKXIS', 1, 3, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '100000', '2025-01-02 06:45:17', '2025-01-02 06:45:17');
-COMMIT;
-
--- ----------------------------
 -- Table structure for vip_logs
 -- ----------------------------
 DROP TABLE IF EXISTS `vip_logs`;
