@@ -10,10 +10,10 @@ import { stringify } from 'qs'
 import router from '@/router'
 import { ElMessage } from 'element-plus'
 import { userStore } from '@/stores'
-import { VITE_API_URL } from '../../public/config.json'
 
 const http: AxiosInstance = axios.create({
-  baseURL: import.meta.env.MODE === 'production' ? VITE_API_URL : import.meta.env.VITE_PROXY_PATH,
+  // @ts-ignore
+  baseURL: import.meta.env.MODE === 'production' ? window.config.url : import.meta.env.VITE_PROXY_PATH,
   timeout: 60000,
   headers: {
     Accept: 'application/json',
