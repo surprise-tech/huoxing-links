@@ -130,7 +130,7 @@ class IndexController extends Controller
                     ->withInput();
             }
             try {
-                Artisan::call('migrate');
+                DB::unprepared(file_get_contents(database_path('base.sql')));
 
                 DB::table('users')->insert([
                     'username' => $params['admin_user'],
