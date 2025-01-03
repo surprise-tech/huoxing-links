@@ -1,0 +1,1 @@
+import{j as i,y as o,M as u}from"./.pnpm-9b0f0a98.js";function c(r,t,s=!1){const e=i();return o(r,a=>{e.value=a,a||u(()=>{e.value=typeof t=="object"?JSON.parse(JSON.stringify(t)):t})},{deep:s,immediate:!0}),e}export{c as u};
