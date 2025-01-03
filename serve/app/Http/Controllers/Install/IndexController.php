@@ -20,9 +20,11 @@ class IndexController extends Controller
     {
         $step = $request->get('step', 1);
 
-        if (DB::table('sys_configs')->count() > 0) {
-            return redirect('/');
-        }
+        try {
+            if (DB::table('sys_configs')->count() > 0) {
+                return redirect('/');
+            }
+        } catch (\Exception $e) {}
 
         $is_goon = true;
         $data = [
