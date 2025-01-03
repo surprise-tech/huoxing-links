@@ -119,8 +119,6 @@ class IndexController extends Controller
             }
 
             try {
-                exec('cp .env.example .env');
-
                 $this->updateEnv('DB_HOST', $params['host']);
                 $this->updateEnv('DB_PORT', $params['port']);
                 $this->updateEnv('DB_DATABASE', $params['name']);
@@ -143,6 +141,8 @@ class IndexController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+
+                Artisan::call('cache:clear');
 
             } catch (\Exception $e) {
                 return redirect('install?step='.$step - 1)
