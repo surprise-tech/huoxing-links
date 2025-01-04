@@ -72,7 +72,8 @@ const getHomeData = async (type: any) => {
     agent_count: res.agent_count,
     user_count: parseInt(res.agent_count) + parseInt(res.member_count),
     pay_vip: res.pay_vip,
-    pay_agent: res.pay_agent
+    pay_agent: res.pay_agent,
+    pay_count: res.pay_count,
   }
   // 用户增长趋势
   if (res.user_growth.length > 0) {
@@ -118,9 +119,9 @@ onMounted(() => {
       <!--   会员数   -->
       <div class="item-box vip-count-bg">
         <div class="item-box-l">
-          <span class="name">当前会员数</span>
+          <span class="name">支付会员数</span>
           <div>
-            <span class="value">{{ dataValue?.member_count }}</span>
+            <span class="value">{{ dataValue?.pay_count || 0 }}</span>
             <span>人</span>
           </div>
         </div>

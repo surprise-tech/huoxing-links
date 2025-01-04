@@ -5,6 +5,7 @@ export interface dataType {
   user_count: string | number
   pay_vip: string | number
   pay_agent: string | number
+  pay_count: string | number
 }
 
 // 曲线order类型

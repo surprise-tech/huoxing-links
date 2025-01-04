@@ -115,20 +115,20 @@ onMounted(() => {
                     <div class="home-card-title">已创建数量</div>
                     <div class="home-card-warp">
                       <div class="home-card-item">
-                        <div class="home-card-num">{{ dataList.link_count ?? 0 }}</div>
-                        <div class="home-num-title">链接</div>
+                        <div class="home-card-num"> {{ data_get(userStore.userInfo, 'link_total', 0) }}</div>
+                        <div class="home-num-title">总链接</div>
                       </div>
                       <div class="home-card-item">
                         <div class="home-card-num">
-                          {{ dataList.yuanma_amount ?? 0 }}
+                          {{ data_get(userStore.userInfo, 'link_created', 0) }}
                         </div>
-                        <div class="home-num-title">小圆码</div>
+                        <div class="home-num-title">已创建</div>
                       </div>
                       <div class="home-card-item">
                         <div class="home-card-num">
-                          {{ dataList.dy_card_amount ?? 0 }}
+                          {{ data_get(userStore.userInfo, 'link_amount', 0) }}
                         </div>
-                        <div class="home-num-title">自动回复</div>
+                        <div class="home-num-title">未创建</div>
                       </div>
                     </div>
                   </div>

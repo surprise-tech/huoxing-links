@@ -34,6 +34,9 @@ interface allowType {
   CLI_QR: boolean
   WORK_WECHAT: boolean
   LANDING_MINI: boolean
+  QQ_USER: boolean
+  QQ_GROUP: boolean
+  QR_QQ: boolean
 }
 
 // 权限配置

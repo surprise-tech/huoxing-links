@@ -22,6 +22,8 @@ export interface IUserInfoResponse {
   agent_package?: any
   vip_package?: any
   link_amount: number
+  link_created: number,
+  link_total: number,
   dy_card_amount: number
   yuanma_amount: number
   children_count: number
