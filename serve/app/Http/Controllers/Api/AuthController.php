@@ -136,11 +136,13 @@ class AuthController extends Controller
         $user = $request->user('api');
         if ($user->type === UserType::MEMBER) {
             $user->load('vipPackage:id,name,config');
-            $user->link_amount = $user->yuanma_amount = $user->dy_card_amount = 0;
+            $user->link_amount = $user->link_total = $user->link_created = 0;
             $config = $user->vipPackage['config'] ?? null;
             if ($config) {
                 $link_count = Link::query()->where('user_id', $user->id)->count();
-                $user->link_amount = bcsub($config['count_limit'], $link_count);
+                $user->link_total = (int) $config['count_limit'];
+                $user->link_created = $link_count;
+                $user->link_amount = (int) bcsub($config['count_limit'], $link_count);
             }
         }
         $user->login_time = $user->currentAccessToken()->created_at;

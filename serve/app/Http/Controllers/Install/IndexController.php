@@ -24,7 +24,8 @@ class IndexController extends Controller
             if (DB::table('sys_configs')->count() > 0) {
                 return redirect('/');
             }
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
 
         $is_goon = true;
         $data = [
