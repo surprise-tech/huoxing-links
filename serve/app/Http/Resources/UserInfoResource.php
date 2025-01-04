@@ -25,8 +25,8 @@ class UserInfoResource extends JsonResource
             $this->mergeWhen($this->type === UserType::MEMBER, [
                 'vip_package' => $this->vipPackage,
                 'link_amount' => $this->link_amount,
-                'yuanma_amount' => $this->yuanma_amount,
-                'dy_card_amount' => $this->dy_card_amount,
+                'link_total' => $this->link_total,
+                'link_created' => $this->link_created,
                 'referral_code' => $this->referral_code,
                 'commission' => $this->commission, // 未提现佣金
                 'accumulate_commission' => $this->accumulate_commission, // 累计佣金
