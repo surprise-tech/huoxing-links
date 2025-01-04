@@ -25,8 +25,6 @@ const { formData, formLoading } = useForm({
               CLI_QR: false,
               WORK_WECHAT: false,
               LANDING_MINI: false,
-              QQ_USER: false,
-              QQ_GROUP: false,
               QR_QQ: false
             }
           } as vipConfig) // 权限配置
@@ -85,8 +83,6 @@ const rules: FormRules = {
       <el-checkbox v-model="formData.config.allow_type.KING_DOC" :label="true">跳转到金山文档</el-checkbox>
       <el-checkbox v-model="formData.config.allow_type.CLI_QR" :label="true">跳转到草料二维码</el-checkbox>
       <el-checkbox v-model="formData.config.allow_type.QR_QQ" :label="true">跳转到腾讯优码</el-checkbox>
-      <el-checkbox v-model="formData.config.allow_type.QQ_USER" :label="true">跳转到QQ</el-checkbox>
-      <el-checkbox v-model="formData.config.allow_type.QQ_GROUP" :label="true">跳转到QQ群</el-checkbox>
     </el-form-item>
     <el-form-item :rules="[{ required: true, message: '请选择链接保留时长', trigger: 'blur' }]" label="链接保留时长">
       <el-checkbox :model-value="true" disabled>永久</el-checkbox>
