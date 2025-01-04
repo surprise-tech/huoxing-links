@@ -32,7 +32,7 @@ class IndexController extends Controller
         $user = auth('api')->user();
         // 超级管理的首页统计
         if ($user->type === UserType::Admin) {
-            $res['member_count'] = (string) User::query()->where('type', UserType::MEMBER)->count();
+            $res['user_count'] = (string) User::query()->where('type', UserType::MEMBER)->count();
             $res['pay_count'] = User::query()->where('type', UserType::MEMBER)->whereNotNull('vip_id')->count();
             $res['pay_vip'] = bcdiv(Payment::query()
                 ->where('status', PaymentStatus::Success)
