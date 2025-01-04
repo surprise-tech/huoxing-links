@@ -33,61 +33,41 @@
 
 - 配置环境（推荐nginx、php8.1、pnpm、mysql）
 
-```
-#执行根目录下 deploy.sh文件
-chmod +x deploy.sh #执行权限
-./deploy.sh
-```
 
 
 
-### Api serve目录下.env 配置修改
-```
-数据库配置
-DB_CONNECTION=mysql
-DB_HOST=数据库地址
-DB_PORT=3306
-DB_DATABASE=数据库
-DB_USERNAME=用户名
-DB_PASSWORD=密码
-
-#微信支付
-WECHAT_PAY_APP_ID=APP_ID
-WECHAT_PAY_MCH_ID=商户号
-WECHAT_PAY_SECRET_KEY=支付秘钥
-
-#阿里云短信配置
-ALI_SMS_KEY=短信KEY
-ALI_SMS_SECRET=短信秘钥
-ALI_SMS_SIGN_NAME=短信签名
-
-#SMTP邮件配置
-MAIL_DRIVER=smtp
-MAIL_FROM_NAME=邮件发件人名称(火星短链)
-MAIL_HOST=邮件服务器(smtp.qq.com)
-MAIL_PORT=端口(465)
-MAIL_FROM_ADDRESS=发送邮箱(xxx@163.com)
-MAIL_USERNAME=用户(xxx@163.com)
-MAIL_PASSWORD=密码
-MAIL_ENCRYPTION=null
+### 1.Api serve目录下复制 .env.example .env
+### 2.配置nginx 
+```angular2html
+# 后台地址
+location /web {
+    alias /home/link/huoxing-links/admin/dist;
+    index index.html;
+}
+#api配置
+location / {
+    try_files $uri $uri/ /index.php?$query_string;
+    client_max_body_size 50m;
+}
 
 ```
-### 后台 admin目录下.env 配置修改
+
+### 3.后台 admin/dist 目录下config.js 修改
 ```
-VITE_API_URL=https://您的域名/api
+url: 'https://您的域名/api',
 ```
 
-### 跳转文件 jump目录下a_dev.html修改
+### 4.跳转文件 jump目录下a_dev.html修改
 ```
 var host = "你的域名(不加机构)"
 var domain = "机构"
 ```
 
-### 小程序文件 mini_programs/utils/request.js
+### 5.小程序文件 mini_programs/utils/request.js
 ```
 let baseUrl = "https://xxx.xxxxx.xxx"; // 后台请求域名改为你的域名
 ```
-
+### 6.访问你的域名，填写数据库连接账号完成安装
 
 ## 重要信息
 
