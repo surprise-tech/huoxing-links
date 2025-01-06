@@ -42,33 +42,40 @@ fi
 # 编译后台
 echo "cd admin"
 cd admin
-if ! pnpm install; then
-    echo "pnpm 安装失败"
-    exit 0
+if [ ! -e "install.lock" ]; then
+  if ! pnpm install; then
+      echo "pnpm 安装失败"
+      exit 0
+  fi
+  touch install.lock
 fi
-if [ ! -d "dist" ]; then
-    echo "编译后台"
-    pnpm build
-fi
+
+echo "编译后台"
+pnpm build
+
 cd ../
 
 # API初始
 echo "cd serve"
 cd serve
 
-if ! composer install;then
-    echo "接口安装失败"
-    exit 0
+if [ ! -e "install.lock" ]; then
+   if ! composer install;then
+       echo "接口安装失败"
+       exit 0
+   fi
+   echo "生成API KEY"
+   php artisan key:generate
+   echo "初始数据库"
+   php artisan migrate
+   echo "初始管理员账号"
+   php artisan app:system-init
+   if [ ! -d "public/storage" ]; then
+      php artisan storage:link
+   fi
+   touch install.lock
 fi
-echo "生成API KEY"
-php artisan key:generate
-echo "初始数据库"
-php artisan migrate
-echo "初始管理员账号"
-php artisan app:system-init
-if [ ! -d "public/storage" ]; then
-   php artisan storage:link
-fi
+
 cd ../
 nginx_user=$(ps aux | grep nginx | grep -v grep | sed -n '2p' | grep -oE '^[^ ]+')
 chown -R "$nginx_user" admin
