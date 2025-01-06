@@ -129,7 +129,7 @@
                             </div>
                         </div>
                         <div class="mounted-tips mt16">
-                            系统要求likeshop开源商城安装目录下的runtime和upload必须可写，才能使用likeshop开源商城的所有功能。
+                            系统要求安装目录下的runtime和upload必须可写，才能使用系统的所有功能。
                         </div>
                         <div class="mounted-item mt16">
                             <div class="content-header">

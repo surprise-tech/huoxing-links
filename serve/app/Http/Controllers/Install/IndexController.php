@@ -58,7 +58,7 @@ class IndexController extends Controller
                     'port' => $_POST['port'] ?? '3306',
                     'user' => $_POST['user'] ?? 'root',
                     'password' => $_POST['password'] ?? '',
-                    'name' => $_POST['name'] ?? 'likeshop',
+                    'name' => $_POST['name'] ?? 'huoxing_db',
                     'admin_user' => $_POST['admin_user'] ?? '',
                     'admin_password' => $_POST['admin_password'] ?? '',
                     'admin_confirm_password' => $_POST['admin_confirm_password'] ?? '',
