@@ -120,6 +120,9 @@ class IndexController extends Controller
             }
 
             try {
+                $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http';
+                $domain = $protocol.'://'.$_SERVER['HTTP_HOST'];
+                $this->updateEnv('APP_URL', $domain);
                 $this->updateEnv('DB_HOST', $params['host']);
                 $this->updateEnv('DB_PORT', $params['port']);
                 $this->updateEnv('DB_DATABASE', $params['name']);
@@ -142,12 +145,12 @@ class IndexController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-
+                Artisan::call('storage:link');
                 Artisan::call('cache:clear');
 
             } catch (\Exception $e) {
                 return redirect('install?step='.$step - 1)
-                    ->withErrors('sql_error:'.$e->getMessage())
+                    ->withErrors('安装失败！:'.$e->getMessage())
                     ->withInput();
             }
 
