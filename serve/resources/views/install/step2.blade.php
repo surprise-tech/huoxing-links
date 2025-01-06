@@ -106,7 +106,7 @@
                                     <tbody>
                                     <tr>
                                         <td>PHP版本</td>
-                                        <td>大于7.2</td>
+                                        <td>≥8.1</td>
                                         <td>{!! $chk['php_version'] !!}</td>
                                     </tr>
                                     <tr>
@@ -124,12 +124,32 @@
                                         <td>支持</td>
                                         <td>{!! $chk['gd2'] !!}</td>
                                     </tr>
+                                    <tr>
+                                        <td>fileinfo</td>
+                                        <td>支持</td>
+                                        <td>{!! $chk['fileinfo'] !!}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>putenv</td>
+                                        <td>支持</td>
+                                        <td>{!! $chk['putenv'] !!}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>symlink</td>
+                                        <td>支持</td>
+                                        <td>{!! $chk['symlink'] !!}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>proc_open</td>
+                                        <td>支持</td>
+                                        <td>{!! $chk['proc_open'] !!}</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="mounted-tips mt16">
-                            系统要求安装目录下的runtime和upload必须可写，才能使用系统的所有功能。
+                            系统要求安装目录下的storage必须可写，才能使用系统的所有功能。
                         </div>
                         <div class="mounted-item mt16">
                             <div class="content-header">
