@@ -58,7 +58,7 @@ class IndexController extends Controller
                     'port' => $_POST['port'] ?? '3306',
                     'user' => $_POST['user'] ?? 'root',
                     'password' => $_POST['password'] ?? '',
-                    'name' => $_POST['name'] ?? 'likeshop',
+                    'name' => $_POST['name'] ?? 'huoxing_db',
                     'admin_user' => $_POST['admin_user'] ?? '',
                     'admin_password' => $_POST['admin_password'] ?? '',
                     'admin_confirm_password' => $_POST['admin_confirm_password'] ?? '',
@@ -120,20 +120,38 @@ class IndexController extends Controller
             }
 
             try {
+                $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http';
+                $domain = $protocol.'://'.$_SERVER['HTTP_HOST'];
+                $this->updateEnv('APP_URL', $domain);
                 $this->updateEnv('DB_HOST', $params['host']);
                 $this->updateEnv('DB_PORT', $params['port']);
                 $this->updateEnv('DB_DATABASE', $params['name']);
                 $this->updateEnv('DB_USERNAME', $params['user']);
                 $this->updateEnv('DB_PASSWORD', $params['password']);
+
+                $base_path = base_path();
+                $new_path = str_replace('/serve', '/admin/dist/config.js', $base_path);
+                $content = File::get($new_path);
+                if (!str_contains($content, $domain)) {
+                    File::put($new_path, "window.config = {
+  // 你的后端域名
+  url: '{$domain}/api'
+}");
+                }
+
             } catch (\Exception $e) {
                 return redirect('install?step='.$step - 1)
                     ->withErrors($e->getMessage())
                     ->withInput();
             }
+            sleep(1);
+            Artisan::call('config:clear');
+            Artisan::call('cache:clear');
+            Artisan::call('storage:link');
+            sleep(1);
             try {
-                DB::unprepared(file_get_contents(database_path('base.sql')));
-
-                DB::table('users')->insert([
+                DB::connection('test')->unprepared(file_get_contents(database_path('base.sql')));
+                DB::connection('test')->table('users')->insert([
                     'username' => $params['admin_user'],
                     'password' => bcrypt($params['admin_password']),
                     'type' => UserType::Admin,
@@ -143,11 +161,9 @@ class IndexController extends Controller
                     'updated_at' => now(),
                 ]);
 
-                Artisan::call('cache:clear');
-
             } catch (\Exception $e) {
                 return redirect('install?step='.$step - 1)
-                    ->withErrors('sql_error:'.$e->getMessage())
+                    ->withErrors('安装失败！:'.$e->getMessage())
                     ->withInput();
             }
 
@@ -186,6 +202,10 @@ class IndexController extends Controller
             'pdo_mysql' => extension_loaded('pdo_mysql') ? '✓' : '×',
             'curl' => extension_loaded('curl') ? '✓' : '×',
             'gd2' => extension_loaded('gd') ? '✓' : '×',
+            'fileinfo' => extension_loaded('fileinfo') ? '✓' : '×',
+            'putenv' => function_exists('putenv') ? '✓' : '×',
+            'symlink' => function_exists('symlink') ? '✓' : '×',
+            'proc_open' => function_exists('proc_open') ? '✓' : '×',
             'log' => File::isWritable(storage_path('logs')) ? '✓' : '×',
             'upload' => File::isWritable(storage_path('app')) ? '✓' : '×',
             'cache' => File::isWritable(storage_path('framework')) ? '✓' : '×',

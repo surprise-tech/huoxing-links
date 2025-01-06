@@ -36,7 +36,7 @@
                         <div class="success-content">
                             <div class="mt16 result">安装完成，进入管理后台</div>
                             <div class="tips">
-                                为了您站点的安全，安装完成后即可将网站根目录下的“install”文件夹删除，或者config/install.lock/目录下创建install.lock文件防止重复安装。
+                                为了您站点的安全，安装完成后即可将网站根目录下的“install”文件夹删除。
                             </div>
                             <div class="btn-group">
                                 <a class="btn" href="/" style="margin-left: 20px;">进入首页</a>
