@@ -133,10 +133,14 @@ class IndexController extends Controller
                     ->withErrors($e->getMessage())
                     ->withInput();
             }
+            sleep(1);
+            Artisan::call('config:clear');
+            Artisan::call('cache:clear');
+            Artisan::call('storage:link');
+            sleep(1);
             try {
-                DB::unprepared(file_get_contents(database_path('base.sql')));
-
-                DB::table('users')->insert([
+                DB::connection('test')->unprepared(file_get_contents(database_path('base.sql')));
+                DB::connection('test')->table('users')->insert([
                     'username' => $params['admin_user'],
                     'password' => bcrypt($params['admin_password']),
                     'type' => UserType::Admin,
@@ -145,8 +149,6 @@ class IndexController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-                Artisan::call('storage:link');
-                Artisan::call('cache:clear');
 
             } catch (\Exception $e) {
                 return redirect('install?step='.$step - 1)
