@@ -67,8 +67,6 @@ const handleSort = async (row: any) => {
       <el-table-column label="权限配置">
         <template #default="{ row }">
           <div>链接数量：{{ row.config?.count_limit }}</div>
-          <div>小圆码数量：{{ row.config?.yuanma_limit }}</div>
-          <div>抖音自动回复数量：{{ row.config?.douyin_reply_limit }}</div>
           <div>UV限制：{{ row.config?.uv_limit }}</div>
         </template>
       </el-table-column>
