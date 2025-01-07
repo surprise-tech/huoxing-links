@@ -129,16 +129,28 @@ class IndexController extends Controller
                 $this->updateEnv('DB_USERNAME', $params['user']);
                 $this->updateEnv('DB_PASSWORD', $params['password']);
 
+                try {
+                    $base_path = base_path();
+                    $new_path = str_replace('/serve', '/admin/dist/config.js', $base_path);
+                    $content = File::get($new_path);
+                    if (! str_contains($content, $domain)) {
+                        File::put($new_path, "window.config = {
+  // 你的后端域名
+  url: '{$domain}/api'
+}");
+                    }
+                } catch (\Exception $e) {
+                }
             } catch (\Exception $e) {
                 return redirect('install?step='.$step - 1)
                     ->withErrors($e->getMessage())
                     ->withInput();
             }
-            sleep(1);
+
             Artisan::call('config:clear');
             Artisan::call('cache:clear');
             Artisan::call('storage:link');
-            sleep(1);
+
             try {
                 DB::connection('test')->unprepared(file_get_contents(database_path('base.sql')));
                 DB::connection('test')->table('users')->insert([
