@@ -318,6 +318,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (14, '2024_04_15_14
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (15, '2024_04_15_143134_create_cards_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (16, '2024_04_16_084221_create_vip_logs_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (17, '2024_05_08_101122_create_material_categories_table', 1);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (17, '2025_01_08_011255_create_versions_table', 1);
 COMMIT;
 
 -- ----------------------------
@@ -479,6 +480,8 @@ INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) 
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('wechat_pay_mch_id', '', NULL, '2025-01-02 00:04:23', '2025-01-02 00:04:23');
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('wechat_pay_private_cert', '', NULL, '2025-01-02 00:04:23', '2025-01-02 00:04:23');
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('wechat_pay_secret_key', '', NULL, '2025-01-02 00:04:23', '2025-01-02 00:04:23');
+INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('system_version', '{\"version_number\":\"1.0.1\",\"version\":1}', NULL, NULL, '2025-01-08 01:53:06');
+INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('upgrade_domain', 'https://huoxing-test.o2.sapuai.com', NULL, NULL, '2025-01-08 01:53:06');
 COMMIT;
 
 -- ----------------------------
@@ -533,6 +536,27 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
+-- Table structure for versions
+-- ----------------------------
+DROP TABLE IF EXISTS `versions`;
+CREATE TABLE `versions` (
+    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+    `version_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '版本号',
+    `version` int NOT NULL COMMENT '版本',
+    `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '安装包',
+    `created_at` timestamp NULL DEFAULT NULL,
+    `updated_at` timestamp NULL DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of versions
+-- ----------------------------
+BEGIN;
+INSERT INTO `versions` (`id`, `version_number`, `version`, `path`, `created_at`, `updated_at`) VALUES (1, '1.0.1', 1, 'zip.zip', '2025-01-08 01:32:12', '2025-01-08 01:32:12');
+COMMIT;
+
+-- ----------------------------
 -- Table structure for vip_packages
 -- ----------------------------
 DROP TABLE IF EXISTS `vip_packages`;
@@ -552,7 +576,7 @@ CREATE TABLE `vip_packages` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `vip_packages` (`id`, `name`, `price`, `level`, `config`, `created_at`, `updated_at`) VALUES (1, '体验套餐', 0, 0, '{\"pre_min\": false, \"support\": true, \"uv_limit\": 9, \"cur_index\": false, \"allow_type\": {\"CLI_QR\": false, \"KING_DOC\": false, \"WORK_WECHAT\": false, \"LANDING_MINI\": false, \"MINI_PROGRAM\": true}, \"count_limit\": 1, \"min_count_limit\": 1, \"min_disabled_check\": true}', '2024-04-11 12:49:52', '2024-09-29 08:28:55');
-INSERT INTO `vip_packages` (`id`, `name`, `price`, `level`, `config`, `created_at`, `updated_at`) VALUES (2, '初级会员', 4300, 1, '{\"pre_min\": true, \"support\": true, \"uv_limit\": 50, \"cur_index\": true, \"allow_type\": {\"CLI_QR\": true, \"KING_DOC\": true, \"WORK_WECHAT\": true, \"LANDING_MINI\": true, \"MINI_PROGRAM\": true}, \"count_limit\": 5, \"min_count_limit\": 5, \"min_disabled_check\": true}', '2024-04-17 14:27:19', '2024-09-29 08:29:32');
+INSERT INTO `vip_packages` (`id`, `name`, `price`, `level`, `config`, `created_at`, `updated_at`) VALUES (2, '初级会员', 4300, 1, '{\"pre_min\": true, \"support\": true, \"uv_limit\": 50, \"cur_index\": true, \"allow_type\": {\"QR_QQ\": true, \"CLI_QR\": true, \"KING_DOC\": true, \"WORK_WECHAT\": true, \"LANDING_MINI\": true, \"MINI_PROGRAM\": true}, \"count_limit\": 5, \"min_count_limit\": 5, \"min_disabled_check\": true}', '2024-04-17 14:27:19', '2025-01-04 02:59:09');
 INSERT INTO `vip_packages` (`id`, `name`, `price`, `level`, `config`, `created_at`, `updated_at`) VALUES (3, '高级会员', 29800, 2, '{\"pre_min\": true, \"support\": true, \"uv_limit\": 100000, \"cur_index\": true, \"allow_type\": {\"CLI_QR\": true, \"KING_DOC\": true, \"WORK_WECHAT\": true, \"LANDING_MINI\": true, \"MINI_PROGRAM\": true}, \"count_limit\": 50, \"min_count_limit\": 10, \"min_disabled_check\": true}', '2024-04-22 17:40:28', '2024-09-29 08:29:49');
 COMMIT;
 

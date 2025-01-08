@@ -108,4 +108,17 @@ class UploadController extends Controller
 
         return $this->success();
     }
+
+    public function upload_file(Request $request): JsonResponse
+    {
+        $request->validate([
+            'file' => 'required|file|extensions:zip',
+        ]);
+        $file = $request->file('file');
+        $path = $file->store('zip');
+
+        return $this->success([
+            'path' => $path,
+        ]);
+    }
 }
