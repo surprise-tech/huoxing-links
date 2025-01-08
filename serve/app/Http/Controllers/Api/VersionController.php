@@ -19,7 +19,7 @@ class VersionController extends Controller
             'version' => 'required|integer',
         ]);
 
-        $version = Version::query()->where('version','>', $request->input('version'))->first();
+        $version = Version::query()->where('version', '>', $request->input('version'))->first();
 
         return $this->success($version);
     }
@@ -47,7 +47,7 @@ class VersionController extends Controller
         }
         $data = $request->only(array_keys($rules));
 
-        if (strpos('http',$data['path']) === false) {
+        if (strpos('http', $data['path']) === false) {
             $data['path'] = Storage::url($data['path']);
         }
 
@@ -65,7 +65,7 @@ class VersionController extends Controller
         $request->validate($rules);
 
         $data = $request->only(array_keys($rules));
-        if (strpos('http',$data['path']) === false) {
+        if (strpos('http', $data['path']) === false) {
             $data['path'] = Storage::url($data['path']);
         }
 
