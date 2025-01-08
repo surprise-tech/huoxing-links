@@ -105,7 +105,7 @@ Route::middleware(ApiAuth::class.':admin')->group(function (Router $router) {
     $router->get('/commission-logs/{user_id}', [CommissionController::class, 'agent_logs']); // 代理商佣金记录
 
     $router->apiResource('version', VersionController::class);
-
+    $router->post('upload-file', [UploadController::class, 'upload_file']);
 });
 Route::get('news_version', [VersionController::class, 'version']);
-Route::get('upgrade', [UpgradeController::class, 'index']);
+Route::get('upgrade_status', [UpgradeController::class, 'index']);

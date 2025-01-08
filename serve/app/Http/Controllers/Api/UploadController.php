@@ -108,4 +108,17 @@ class UploadController extends Controller
 
         return $this->success();
     }
+
+    public function upload_file(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|',
+        ]);
+        $file = $request->file('file');
+        $path = $file->store(date('Y/m/d'));
+
+        return $this->success([
+            'path' => $path,
+        ]);
+    }
 }

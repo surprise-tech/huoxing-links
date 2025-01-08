@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Version;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Ugly\Base\Traits\ApiResource;
 
 class VersionController extends Controller
@@ -44,8 +45,13 @@ class VersionController extends Controller
         if (! empty($last_version) && $last_version > $version) {
             return $this->failed("当前版本号{$version}应大于最后一次版本编号{$last_version}");
         }
+        $data = $request->only(array_keys($rules));
 
-        Version::query()->create($request->only(array_keys($rules)));
+        if (strpos('http',$data['path']) === false) {
+            $data['path'] = Storage::url($data['path']);
+        }
+
+        Version::query()->create($data);
 
         return $this->success();
     }
@@ -58,7 +64,12 @@ class VersionController extends Controller
         ];
         $request->validate($rules);
 
-        Version::query()->where('id', $id)->update($request->only(array_keys($rules)));
+        $data = $request->only(array_keys($rules));
+        if (strpos('http',$data['path']) === false) {
+            $data['path'] = Storage::url($data['path']);
+        }
+
+        Version::query()->where('id', $id)->update($data);
 
         return $this->success();
     }
