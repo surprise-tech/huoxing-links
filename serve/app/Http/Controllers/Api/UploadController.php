@@ -109,13 +109,13 @@ class UploadController extends Controller
         return $this->success();
     }
 
-    public function upload_file(Request $request)
+    public function upload_file(Request $request): JsonResponse
     {
         $request->validate([
-            'file' => 'required|file|mimetypes:zip',
+            'file' => 'required|file|extensions:zip',
         ]);
         $file = $request->file('file');
-        $path = $file->store(date('Y/m/d'));
+        $path = $file->store('zip');
 
         return $this->success([
             'path' => $path,

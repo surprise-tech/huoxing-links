@@ -6,6 +6,7 @@ use App\Services\SystemConfig;
 use GuzzleHttp\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Ugly\Base\Traits\ApiResource;
@@ -22,11 +23,12 @@ class UpgradeController extends Controller
         $url = "{$domain}/api/news_version?version={$system_version['version']}";
         $res = Http::get($url);
         $new_version = $res->json();
+
         if (empty($new_version['path'])) {
             return $this->success(['message' => '没有要更新的版本']);
         }
 
-        $file = basename($new_version['path']); // 本地文件
+        $file = "{$new_version['version_number']}.zip"; // 本地文件
 
         // 下载文件到本地
         $client = new Client([
@@ -54,10 +56,13 @@ class UpgradeController extends Controller
             $zip->extractTo($extractPath);
             $zip->close();
 
+            Artisan::call('migrate --force');
+
             SystemConfig::set(['system_version' => [
                 'version_number' => $new_version['version_number'],
                 'version' => $new_version['version'],
             ]]);
+            unlink($zipFilePath);
 
             return $this->success();
         }
