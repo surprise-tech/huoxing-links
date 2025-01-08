@@ -112,7 +112,7 @@ class UploadController extends Controller
     public function upload_file(Request $request)
     {
         $request->validate([
-            'file' => 'required|',
+            'file' => 'required|file|mimetypes:zip',
         ]);
         $file = $request->file('file');
         $path = $file->store(date('Y/m/d'));
