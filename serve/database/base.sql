@@ -318,7 +318,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (14, '2024_04_15_14
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (15, '2024_04_15_143134_create_cards_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (16, '2024_04_16_084221_create_vip_logs_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (17, '2024_05_08_101122_create_material_categories_table', 1);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (17, '2025_01_08_011255_create_versions_table', 1);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (18, '2025_01_08_011255_create_versions_table', 1);
 COMMIT;
 
 -- ----------------------------
