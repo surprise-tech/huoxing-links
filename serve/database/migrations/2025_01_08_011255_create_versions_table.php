@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('versions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedTinyInteger('status')->default(0)->comment('状态');
             $table->string('version_number')->comment('版本号');
             $table->integer('version')->comment('版本');
             $table->string('path')->comment('安装包');

@@ -19,7 +19,10 @@ class VersionController extends Controller
             'version' => 'required|integer',
         ]);
 
-        $version = Version::query()->where('version', '>', $request->input('version'))->first();
+        $version = Version::query()
+            ->where('status', 1)
+            ->where('version', '>', $request->input('version'))
+            ->first();
 
         return $this->success($version);
     }
@@ -37,6 +40,7 @@ class VersionController extends Controller
             'version_number' => 'required|string',
             'version' => 'required|integer',
             'path' => 'required|string',
+            'status' => '',
         ];
         $request->validate($rules);
 
@@ -60,6 +64,7 @@ class VersionController extends Controller
     {
         $rules = [
             'version_number' => 'required|string',
+            'status' => '',
             'path' => 'required|string',
         ];
         $request->validate($rules);
