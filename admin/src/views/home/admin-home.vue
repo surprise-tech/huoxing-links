@@ -70,7 +70,7 @@ const getHomeData = async (type: any) => {
   dataValue.value = {
     member_count: res.member_count,
     agent_count: res.agent_count,
-    user_count: parseInt(res.agent_count) + parseInt(res.member_count),
+    user_count: res.user_count,
     pay_vip: res.pay_vip,
     pay_agent: res.pay_agent,
     pay_count: res.pay_count,
