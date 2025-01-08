@@ -16,8 +16,10 @@ use App\Http\Controllers\Api\NoticeController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VersionController;
 use App\Http\Controllers\Api\VipPackageController;
 use App\Http\Controllers\Api\WithdrawController;
+use App\Http\Controllers\UpgradeController;
 use App\Http\Middleware\ApiAuth;
 use App\PayChannels\WeChatPayNative;
 use Illuminate\Routing\Router;
@@ -101,4 +103,9 @@ Route::middleware(ApiAuth::class.':admin')->group(function (Router $router) {
     $router->get('payments', [PaymentController::class, 'index']);
 
     $router->get('/commission-logs/{user_id}', [CommissionController::class, 'agent_logs']); // 代理商佣金记录
+
+    $router->apiResource('version', VersionController::class);
+
 });
+Route::get('news_version', [VersionController::class, 'version']);
+Route::get('upgrade', [UpgradeController::class, 'index']);
