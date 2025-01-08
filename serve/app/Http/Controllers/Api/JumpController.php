@@ -97,7 +97,7 @@ class JumpController extends Controller
                     'path' => data_get($link, 'config.url') ?: $mp->url,
                 ];
             } elseif ($link->type === LinkType::KING_DOC) {
-                $cache['params']['sid'] = str_replace('https://kdocs.cn/l/', '', data_get($link, 'config.url'));
+                $cache['params']['sid'] = str_replace('https://kdocs.cn/l/', '', data_get($link, 'config.url')); // del
             } elseif ($link->type === LinkType::CLI_QR) {
                 /**
                  * 1、电脑端访问草料二维码官网：https://cli.im/img
@@ -142,7 +142,7 @@ class JumpController extends Controller
             preg_match($pattern, $getContent, $matches);
             $cache['target'] = $matches[0];
         } elseif ($link->type === LinkType::KING_DOC) {
-            $sidUrl = data_get($cache, 'params.sid');
+            $sidUrl = data_get($link, 'config.url');
             preg_match('/https:\/\/kdocs\.cn\/l\/([a-zA-Z0-9]+)/', $sidUrl, $matches);
             $url_link = Http::withUserAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36')
                 ->get('https://account.kdocs.cn/api/v3/miniprogram/urllink', [
