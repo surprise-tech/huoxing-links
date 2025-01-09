@@ -187,7 +187,6 @@ const clickRegister = () => {
         v-loading="formLoading"
         type="primary"
         @click="clickRegister"
-        :disabled="!route.query.code"
       >
         立即注册
       </el-button>
