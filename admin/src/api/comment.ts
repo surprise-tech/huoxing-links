@@ -5,6 +5,15 @@ export const ApiGetSet = () => {
   return http.get('/config')
 }
 
+export const ApiGetSetALL = () => {
+  return http.get('/config/base')
+}
+
+//保存配置
+export const ApiSaveSet = (data: any) => {
+  return http.put('/config', data)
+}
+
 /*
  *  获取图片验证码
  * */

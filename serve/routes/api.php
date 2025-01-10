@@ -87,7 +87,7 @@ Route::middleware(ApiAuth::class.':admin')->group(function (Router $router) {
 
     // 设置
     $router->get('config/{type}', [ConfigController::class, 'getForm']);
-    $router->put('config/{type}', [ConfigController::class, 'saveForm']);
+    $router->put('config', [ConfigController::class, 'saveForm']);
     // 用户
     $router->apiResource('users', UserController::class)->only(['index', 'store', 'update']);
     $router->get('agent-tree', [UserController::class, 'agent_tree']);

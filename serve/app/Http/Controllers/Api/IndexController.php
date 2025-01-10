@@ -113,6 +113,7 @@ class IndexController extends Controller
     {
         $configs = [
             'code_mode' => SystemConfig::get('send_code_mode'),
+            'verify_code_is_open' => SystemConfig::get('verify_code_is_open'),
             'package' => VipPackage::query()->orderBy('level')->get(['id', 'name', 'price', 'config']),
             'web_site_customer_service' => SystemConfig::get('web_site_customer_service'),
             'web_site_title' => SystemConfig::get('web_site_title'),

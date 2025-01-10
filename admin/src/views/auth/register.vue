@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import usePropData from '@/hooks/propData'
 import { configStore } from '@/stores'
-import EquityInstruction from '@/views/auth/components/equityInstruction.vue'
 import { useWindowSize } from '@vueuse/core'
 import imageCaptcha from '@/utils/imageCaptcha'
 import { ApiGetSmsCaptcha } from '@/api/comment'
@@ -11,7 +10,6 @@ import { ElMessage, type FormInstance } from 'element-plus'
 import { validateForm } from '@/utils'
 import { ApiRegister } from '@/api/user'
 import PayButton from '@/views/home/components/PayButton.vue'
-import { Warning } from '@element-plus/icons-vue'
 const emits = defineEmits(['update:visible'])
 const props = defineProps<{
   visible: boolean
@@ -29,10 +27,12 @@ const formData = ref({
   authCode: '',
   agent: ''
 })
-const regexTxt = ref()
-regexTxt.value = configStore.code_mode === 1 ? /^1\d{10}$/ : /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
-const msgTxt = ref()
-msgTxt.value = configStore.code_mode === 1 ? '手机号' : '邮箱'
+const regexTxt = ref(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+const msgTxt = ref('邮箱')
+if (configStore.verify_code_is_open === 1) {
+  regexTxt.value = configStore.code_mode === 1 ? /^1\d{10}$/ : /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+  msgTxt.value = configStore.code_mode === 1 ? '手机号' : '邮箱'
+}
 
 const rules = {
   phone: [
@@ -116,7 +116,7 @@ const clickRegister = () => {
       agent_id: formData.value.agent,
       referral_code: route.query.code as string
     })
-      .then((res) => {
+      .then(() => {
         ElMessage.success('注册成功，请登录')
         localStorage.setItem('register', 'register')
         visible.value = false
@@ -167,7 +167,7 @@ const clickRegister = () => {
           ></el-input>
         </el-form-item>
 
-        <el-form-item prop="authCode" label="验证码">
+        <el-form-item v-if="configStore.verify_code_is_open === 1" prop="authCode" label="验证码">
           <el-input v-model="formData.authCode" placeholder="请输入验证码">
             <template v-slot:suffix>
               <el-button
@@ -186,7 +186,6 @@ const clickRegister = () => {
         class="sign-btn"
         v-loading="formLoading"
         type="primary"
-        @click="clickRegister"
       >
         立即注册
       </el-button>

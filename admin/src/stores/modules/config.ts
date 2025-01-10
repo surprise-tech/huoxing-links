@@ -4,6 +4,7 @@ import { ApiGetSet } from '@/api/comment'
 const useConfigStore = defineStore('init', {
   state: () => ({
     code_mode: 0,
+    verify_code_is_open:0,
     package: [] as Array<any>,
     asset_url: '',
     web_site_bottom_logo: '',
@@ -14,6 +15,7 @@ const useConfigStore = defineStore('init', {
   actions: {
     refresh(res: any) {
       this.code_mode = res.code_mode
+      this.verify_code_is_open = res.verify_code_is_open
       this.package = res.package
       this.asset_url = res.asset_url
       this.web_site_bottom_logo = res.web_site_bottom_logo
