@@ -186,6 +186,7 @@ const clickRegister = () => {
         class="sign-btn"
         v-loading="formLoading"
         type="primary"
+        @click="clickRegister"
       >
         立即注册
       </el-button>
