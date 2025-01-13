@@ -1,0 +1,1 @@
+import{d as r,o,c as s,a5 as i,P as l,a as t,O as c}from"./@vue-d872a633.js";const u=r({__name:"HomeNotice",props:{notices:{}},setup(p){return(a,e)=>(o(!0),s(l,null,i(a.notices,n=>(o(),s("div",{class:"tip margin-b-10",key:n.id},[e[0]||(e[0]=t("span",{class:"iconfont icon-gong-gao icon-style"},null,-1)),t("p",null,"公告："+c(n.content),1)]))),128))}});export{u as default};

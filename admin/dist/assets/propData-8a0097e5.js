@@ -1,0 +1,1 @@
+import{r as i,w as o,n}from"./@vue-d872a633.js";function c(r,t,s=!1){const e=i();return o(r,a=>{e.value=a,a||n(()=>{e.value=typeof t=="object"?JSON.parse(JSON.stringify(t)):t})},{deep:s,immediate:!0}),e}export{c as u};

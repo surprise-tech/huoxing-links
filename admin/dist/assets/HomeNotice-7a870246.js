@@ -1,1 +1,0 @@
-import{d as a,o as n,b as t,e as r,F as c,f as o,t as i}from"./.pnpm-0d809032.js";const l=o("span",{class:"iconfont icon-gong-gao icon-style"},null,-1),_=a({__name:"HomeNotice",props:{notices:{}},setup(p){return(s,m)=>(n(!0),t(c,null,r(s.notices,e=>(n(),t("div",{class:"tip margin-b-10",key:e.id},[l,o("p",null,"公告："+i(e.content),1)]))),128))}});export{_ as default};
