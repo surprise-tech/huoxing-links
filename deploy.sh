@@ -4,9 +4,9 @@ if [ "$(id -u)" -ne 0 ]; then
     echo "请切换root（sudo su）"
     exit 0
 fi
-# 检测pnpm
-if ! command -v pnpm >/dev/null 2>&1; then
-    echo "pnpm 未安装"
+# 检测yarn
+if ! command -v yarn >/dev/null 2>&1; then
+    echo "yarn 未安装"
     exit 0
 fi
 # 检测php
@@ -43,15 +43,15 @@ fi
 echo "cd admin"
 cd admin
 if [ ! -e "install.lock" ]; then
-  if ! pnpm install; then
-      echo "pnpm 安装失败"
+  if ! yarn install; then
+      echo "yarn 安装失败"
       exit 0
   fi
   touch install.lock
 fi
 
 echo "编译后台"
-pnpm build
+yarn build
 
 cd ../
 
