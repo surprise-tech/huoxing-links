@@ -1,0 +1,1 @@
+import{h as t}from"./index-eb0483c8.js";const s=()=>t.get("/vip-packages"),r=()=>t.get("/agent-packages"),a=()=>t.get("/agent-level"),g=()=>t.get("/agent-tree"),i=()=>t.get("/notice"),o=e=>t.put("/notice",e);export{r as A,g as a,a as b,s as c,o as e,i as g};

@@ -60,7 +60,7 @@ const apiRouter: IMenu[] = [
       title: '数据中心',
       icon: 'menu-credit',
       iconIn: 'menu-credit',
-      permission: [ 'vip']
+      permission: ['vip']
     },
     children: [
       {
@@ -70,23 +70,7 @@ const apiRouter: IMenu[] = [
           title: '邀请记录'
         },
         component: '/newAgent/Invitation'
-      },
-      {
-        path: '/agent-commission',
-        name: 'agent-commission',
-        meta: {
-          title: '佣金记录'
-        },
-        component: '/agent/commission-index'
-      },
-      {
-        path: '/agent-withdraw',
-        name: 'agent-withdraw',
-        meta: {
-          title: '提现记录'
-        },
-        component: '/agent/withdraw'
-      },
+      }
     ]
   },
   {
@@ -184,22 +168,6 @@ const apiRouter: IMenu[] = [
         component: '/super/domains/index',
         meta: {
           title: '域名管理'
-        }
-      },
-      {
-        path: '/super/cards',
-        name: 'cards',
-        component: '/super/cards/index',
-        meta: {
-          title: '卡密管理'
-        }
-      },
-      {
-        path: '/super/withdraw',
-        name: 'withdraw',
-        component: '/super/withdraw/index',
-        meta: {
-          title: '提现申请'
         }
       },
       {

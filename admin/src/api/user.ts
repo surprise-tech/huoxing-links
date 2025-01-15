@@ -39,15 +39,10 @@ export const ApiChangePassword = (data: any) => {
   return http.post('/change-password', data)
 }
 
-/**
- * 兑换卡密码.
- */
-export const ApiConsumeCard = (secret: string) => {
-  return http.post('/consume-card', { secret })
-}
 export const ApiUserFix = (id: any, data: any) => {
   return http.put(`/users/${id}`, data)
 }
+
 export const ApiUploadBase64 = (data: any) => {
   return http.post<any, any>('/material-base64', data)
 }

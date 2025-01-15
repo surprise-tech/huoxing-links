@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CaptchaController;
-use App\Http\Controllers\Api\CardController;
-use App\Http\Controllers\Api\CommissionController;
 use App\Http\Controllers\Api\ConfigController;
 use App\Http\Controllers\Api\DomainController;
 use App\Http\Controllers\Api\IndexController;
@@ -16,9 +14,7 @@ use App\Http\Controllers\Api\NoticeController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\VersionController;
 use App\Http\Controllers\Api\VipPackageController;
-use App\Http\Controllers\Api\WithdrawController;
 use App\Http\Controllers\UpgradeController;
 use App\Http\Middleware\ApiAuth;
 use App\PayChannels\WeChatPayNative;
@@ -61,16 +57,10 @@ Route::middleware(ApiAuth::class)->group(function (Router $router) {
     $router->apiResource('/links', LinkController::class);
     $router->get('link-list', [LinkController::class, 'link_list']); // 获取下拉数据源
 
-    // 佣金
-    $router->get('/commission-logs', [CommissionController::class, 'logs']); // 佣金记录
-    $router->post('/apply-withdraw', [CommissionController::class, 'applyWithdraw']); // 申请提现
-
     $router->get('/agent-invite', [UserController::class, 'invite']); // 邀请记录
 
     // 购买会员
     $router->post('/buy-vip', [AuthController::class, 'buyVip']);
-    // 卡密兑换
-    $router->post('/consume-card', [CardController::class, 'consume']);
 });
 
 // 仅管理员可访问
@@ -87,25 +77,12 @@ Route::middleware(ApiAuth::class.':admin')->group(function (Router $router) {
 
     // 设置
     $router->get('config/{type}', [ConfigController::class, 'getForm']);
+    // 保存设置
     $router->put('config', [ConfigController::class, 'saveForm']);
     // 用户
     $router->apiResource('users', UserController::class)->only(['index', 'store', 'update']);
-    $router->get('agent-tree', [UserController::class, 'agent_tree']);
+    $router->get('agent-tree', [UserController::class, 'agent_tree']); // 树状用户
 
-    // 提现
-    $router->get('withdraws', [WithdrawController::class, 'index']); // 申请记录
-    $router->post('withdraws-reject/{id}', [WithdrawController::class, 'reject']); // 拒绝
-    $router->post('withdraws-confirm/{id}', [WithdrawController::class, 'confirm']); // 确认打款
-
-    // 卡密
-    $router->apiResource('cards', CardController::class)->only(['index', 'store', 'update']);
-
-    $router->get('payments', [PaymentController::class, 'index']);
-
-    $router->get('/commission-logs/{user_id}', [CommissionController::class, 'agent_logs']); // 代理商佣金记录
-
-    $router->apiResource('version', VersionController::class);
-    $router->post('upload-file', [UploadController::class, 'upload_file']); // 上传zip附件
+    $router->get('payments', [PaymentController::class, 'index']); // 付款记录
 });
-Route::get('news_version', [VersionController::class, 'version']); // 查找最新版本
 Route::get('upgrade_status', [UpgradeController::class, 'index']); // 请求最新版本

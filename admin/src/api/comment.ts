@@ -28,19 +28,6 @@ export const ApiGetSmsCaptcha = (data: any) => {
   return http.post('/captcha/sms', data)
 }
 
-// 设置 type: base基础配置
-export const ApiGetSetByType = (type: string) => {
-  return http.get(`/config/${type}`)
-}
-// 设置 type: base基础配置
-export const ApiSaveSetByType = (type: string, data: any) => {
-  return http.put(`/config/${type}`, data)
-}
-
-export const ApiLinkList = () => {
-  return http.get(`/link-list/`)
-}
-
 // 获取链接详情.
 export const ApiLinkDetail = (id: any) => {
   return http.get(`/links/${id}`)

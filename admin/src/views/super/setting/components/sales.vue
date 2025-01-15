@@ -12,10 +12,6 @@ const formData = ref({
   is_give_vip: false,
   give_vip_id: undefined,
   give_vip_days: 0,
-  recommend_commission_1: 0,
-  recommend_commission_2: 0,
-  member_pay_commission_1: 0,
-  member_pay_commission_2: 0
 })
 
 watch(
@@ -24,10 +20,6 @@ watch(
     formData.value.is_give_vip = props.data.is_give_vip
     formData.value.give_vip_id = props.data.give_vip_id
     formData.value.give_vip_days = props.data.give_vip_days
-    formData.value.recommend_commission_1 = props.data.recommend_commission_1
-    formData.value.recommend_commission_2 = props.data.recommend_commission_2
-    formData.value.member_pay_commission_1 = props.data.member_pay_commission_1
-    formData.value.member_pay_commission_2 = props.data.member_pay_commission_2
   },
   {
     deep: true,
@@ -66,22 +58,6 @@ onMounted(() => {
       <div>
         <div class="margin-b-10" style="margin-top: 20px">注册赠送天数</div>
         <el-input-number style="width: 100%" v-model="formData.give_vip_days" :min="1" :max="365" />
-      </div>
-      <div>
-        <div class="margin-b-10" style="margin-top: 20px">一级邀请注册佣金</div>
-        <el-input-number style="width: 100%" v-model="formData.recommend_commission_1" :min="0" />
-      </div>
-      <div>
-        <div class="margin-b-10" style="margin-top: 20px">二级邀请注册佣金</div>
-        <el-input-number style="width: 100%" v-model="formData.recommend_commission_2" :min="0" />
-      </div>
-      <div>
-        <div class="margin-b-10" style="margin-top: 20px">一级分销（%）</div>
-        <el-input-number style="width: 100%" v-model="formData.member_pay_commission_1" />
-      </div>
-      <div>
-        <div class="margin-b-10" style="margin-top: 20px">二级分销（%）</div>
-        <el-input-number style="width: 100%" v-model="formData.member_pay_commission_2" />
       </div>
       <div class="m-b-20 text-center" style="margin-top: 60px">
         <el-button type="primary" size="large" @click="clickSubmit">保存</el-button>

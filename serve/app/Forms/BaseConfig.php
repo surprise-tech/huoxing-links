@@ -15,10 +15,6 @@ class BaseConfig implements SimpleForm
             'give_vip_days' => 'nullable|integer|min:0|max:365', //赠送天数
             'give_vip_id' => 'nullable|integer', //赠送套餐
             'recommend_commission' => 'nullable|integer', // 推荐佣金
-            'recommend_commission_1' => 'nullable|integer',
-            'recommend_commission_2' => 'nullable|integer',
-            'member_pay_commission_1' => 'nullable|integer', // 一级邀请人消费提成 1%
-            'member_pay_commission_2' => 'nullable|integer', // 二级邀请人消费提成 1%
 
             'web_site_customer_service' => 'nullable',
             'web_site_title' => 'nullable',
@@ -61,10 +57,6 @@ class BaseConfig implements SimpleForm
             'is_give_vip' => (bool) SystemConfig::get('is_give_vip'),
             'give_vip_id' => SystemConfig::get('give_vip_id'),
             'give_vip_days' => SystemConfig::get('give_vip_days'),
-            'recommend_commission_1' => SystemConfig::get('recommend_commission_1'),
-            'recommend_commission_2' => SystemConfig::get('recommend_commission_2'),
-            'member_pay_commission_1' => SystemConfig::get('member_pay_commission_1'),
-            'member_pay_commission_2' => SystemConfig::get('member_pay_commission_2'),
 
             'web_site_customer_service' => SystemConfig::get('web_site_customer_service'),
             'web_site_title' => SystemConfig::get('web_site_title'),
@@ -90,7 +82,6 @@ class BaseConfig implements SimpleForm
             'wechat_pay_secret_key' => SystemConfig::get('wechat_pay_secret_key'),
             'wechat_pay_private_cert' => SystemConfig::get('wechat_pay_secret_key'), // 私钥证书
             'wechat_pay_certificate' => SystemConfig::get('wechat_pay_certificate'), // 公钥证书
-
         ];
     }
 }

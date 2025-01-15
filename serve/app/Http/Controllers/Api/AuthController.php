@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\CommissionType;
 use App\Enums\UserType;
 use App\Enums\VipStatus;
-use App\Enums\WithdrawStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\LoginRequest;
@@ -18,7 +16,6 @@ use App\Models\User;
 use App\Models\VipLogs;
 use App\Models\VipPackage;
 use App\PayChannels\WeChatPayNative;
-use App\Services\DistributorsService;
 use App\Services\SystemConfig;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -82,32 +79,6 @@ class AuthController extends Controller
             }
         }
 
-        if ($referral_code) {
-            // 给推荐人发放佣金.
-            // 一级
-            DistributorsService::commission(
-                (int) SystemConfig::get('recommend_commission_1'),
-                $user,
-                [
-                    'title' => '推荐返佣',
-                    'type' => CommissionType::Rebates,
-                    'is_withdraw' => false,
-                    'status' => WithdrawStatus::NONE,
-                ],
-            );
-            // 二级
-            DistributorsService::commission(
-                (int) SystemConfig::get('recommend_commission_2'),
-                $user->parent,
-                [
-                    'title' => '二级分销推荐返佣',
-                    'type' => CommissionType::Rebates,
-                    'is_withdraw' => false,
-                    'status' => WithdrawStatus::NONE,
-                ],
-            );
-        }
-
         return $this->success();
     }
 
@@ -156,16 +127,31 @@ class AuthController extends Controller
         $user = $request->user('api');
         $vip = VipPackage::query()->findOrFail($request->input('vip_id'));
 
-        return $this->success(Payment::pay(
-            channel: WeChatPayNative::class,
-            amount: $vip->price,
-            job: PayVip::class,
-            attach: [
-                'vip_id' => $vip->id,
-                // 生效类型：1-立即生效 2-延期生效
-                'type' => $request->integer('type', 1),
-            ],
-            payer: $user
-        )->send(['description' => '购买会员']));
+        if (SystemConfig::get('wechat_pay_app_id') == null ||
+            SystemConfig::get('wechat_pay_mch_id') == null ||
+            SystemConfig::get('wechat_pay_secret_key') == null ||
+            SystemConfig::get('wechat_pay_secret_key') == null ||
+            SystemConfig::get('wechat_pay_certificate') == null) {
+            return $this->failed('清设置支付信息');
+        }
+        try {
+            $res = Payment::pay(
+                channel: WeChatPayNative::class,
+                amount: $vip->price,
+                job: PayVip::class,
+                attach: [
+                    'vip_id' => $vip->id,
+                    // 生效类型：1-立即生效 2-延期生效
+                    'type' => $request->integer('type', 1),
+                ],
+                payer: $user
+            )->send(['description' => '购买会员']);
+
+            return $this->success($res);
+        } catch (\Exception $e) {
+            info($e->getMessage());
+
+            return $this->failed('支付失败!');
+        }
     }
 }

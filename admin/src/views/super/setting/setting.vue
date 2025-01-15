@@ -30,7 +30,7 @@ const tab = ref('web')
         <el-tab-pane label="支付配置" name="pay">
           <Pay :data="formData"></Pay>
         </el-tab-pane>
-        <el-tab-pane label="分销配置" name="sales">
+        <el-tab-pane label="注册赠送会员" name="sales">
           <Sales :data="formData"></Sales>
         </el-tab-pane>
       </el-tabs>

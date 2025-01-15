@@ -8,17 +8,17 @@
         订单金额：<span class="price">￥{{ payJson?.amount }}</span>
       </div>
       <qrcode-vue :value="payJson?.code_url" :size="200" level="H" />
-      <el-radio-group v-model="vip_type" v-if="props.type === 'pay-vip'">
+      <!--<el-radio-group v-model="vip_type" v-if="props.type === 'pay-vip'">
         <el-radio label="1"><span :class="{ active: vip_type === '1' }">立即生效</span></el-radio>
         <el-radio label="2"><span :class="{ active: vip_type === '2' }">顺延生效</span></el-radio>
-      </el-radio-group>
+      </el-radio-group>-->
       <div class="tips">请使用微信扫码支付，支付成功后请刷新页面</div>
     </div>
   </el-dialog>
 </template>
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { ApiPayVip, ApiRechargeCredit } from '@/api/pay'
+import { ApiPayVip } from '@/api/pay'
 import QrcodeVue from 'qrcode.vue'
 const props = defineProps<{
   type: string
@@ -44,18 +44,6 @@ const requestPay = (pay?: any) => {
     loading.value = true
     payJson.value = pay
     loading.value = false
-  } else if (props.type === 'pay-credit') {
-    if (props.info > 0) {
-      payVisible.value = true
-      loading.value = true
-      ApiRechargeCredit(props.info)
-        .then((res) => {
-          payJson.value = res
-        })
-        .finally(() => {
-          loading.value = false
-        })
-    }
   }
 }
 

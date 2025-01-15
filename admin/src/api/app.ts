@@ -10,8 +10,8 @@ export const ApiAppList = () => {
 export const ApiMaterialCate = () => {
   return http.get('/materials-cate')
 }
+
 // 批量删除
 export const ApiDelMaterial = (data: any) => {
   return http.post('/material-upload-del', data)
 }
-

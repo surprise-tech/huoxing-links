@@ -117,11 +117,9 @@ const vipPackageChange = (data: any, detail?: any) => {
           <el-button type="primary" link :icon="Edit" @click="changeForm(row, 'end_at')">{{ row.end_at }}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="credit" label="积分"></el-table-column>
       <el-table-column prop="created_at" label="注册时间"></el-table-column>
       <el-table-column prop="" label="操作" fixed="right" width="80">
         <template #default="{ row }">
-          <!--          <el-button type="primary" link @click="changeForm(row, 'credit')">充值积分</el-button>-->
           <el-button type="primary" link v-if="row.status" @click="inlineEdit(row)">禁用</el-button>
           <el-button type="primary" link v-else @click="inlineEdit(row)" style="color: #ff0000">启用</el-button>
         </template>

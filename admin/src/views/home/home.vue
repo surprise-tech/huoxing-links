@@ -4,12 +4,8 @@ import { ApiAllData } from '@/api/home'
 import { userStore } from '@/stores'
 import ChangePassword from '@/views/home/components/ChangePassword.vue'
 import Welcome from '@/views/home/components/Welcome.vue'
-import HomeNotice from '@/views/home/components/HomeNotice.vue'
 import { data_get, setClipboard } from '@/utils'
-import { ElMessage } from 'element-plus'
-import { ApiConsumeCard } from '@/api/user'
 import BuyVip from '@/views/home/components/BuyVip.vue'
-import WithdrawForm from '@/views/home/components/WithdrawForm.vue'
 import { getNotify } from '@/api/super'
 // 获取概况数据
 const dataList = ref<any>({})
@@ -29,23 +25,7 @@ const copyCode = () => {
   var path = window.location.pathname
   setClipboard(root + path + '#/register?code=' + code)
 }
-// 卡密兑换
-const consumeCardVisible = ref(false)
 const success = ref(false)
-const card_token = ref('')
-const submitLoading = ref(false)
-const clickConsumeCard = () => {
-  if (card_token.value) {
-    ApiConsumeCard(card_token.value).then(() => {
-      ElMessage.success('兑换成功！')
-      window.location.reload()
-    })
-  } else {
-    ElMessage.error('请输入卡密码')
-  }
-}
-// 提现
-const withdrawVisible = ref(false)
 // 开通会员
 const buyVipVisible = ref(false)
 const tiyan = () => {
@@ -163,19 +143,10 @@ onMounted(() => {
             <span>{{ userStore.userInfo.end_at }}</span>
           </div>
           <el-row :gutter="10">
-            <el-col :xs="12" :sm="12">
+            <el-col :xs="24" :sm="24">
               <el-button class="btn" type="primary" @click="buyVipVisible = true">开通会员/续费会员</el-button>
               <el-dialog title="开通会员" width="1000px" append-to-body v-model="buyVipVisible">
                 <BuyVip />
-              </el-dialog>
-            </el-col>
-            <el-col :xs="12" :sm="12">
-              <el-button class="btn" type="primary" @click="consumeCardVisible = true">卡密兑换</el-button>
-              <el-dialog title="卡密兑换" :width="500" append-to-body v-model="consumeCardVisible">
-                <div style="display: flex; padding-bottom: 20px" v-loading="submitLoading">
-                  <el-input v-model="card_token" placeholder="请输入卡密" style="flex: 1px; margin-right: 10px" />
-                  <el-button type="primary" @click="clickConsumeCard" :loading="submitLoading">立即兑换</el-button>
-                </div>
               </el-dialog>
             </el-col>
           </el-row>
@@ -184,10 +155,10 @@ onMounted(() => {
     </el-row>
 
     <el-row :gutter="10">
-      <el-col :xs="24" :sm="8">
+      <el-col :xs="24" :sm="12">
         <ChangePassword />
       </el-col>
-      <el-col :xs="24" :sm="8">
+      <el-col :xs="24" :sm="12">
         <div class="bgw-box" style="min-height: 166px">
           <div class="right-h">
             <img class="margin-right-5" src="@/assets/home/vip-icon.png" alt="" />
@@ -198,32 +169,6 @@ onMounted(() => {
             <el-button class="btn" type="primary" @click="copyCode"
               >邀请码：{{ data_get(userStore.userInfo, 'referral_code', '') }}， 点击复制邀请链接
             </el-button>
-          </div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="8">
-        <div class="bgw-box">
-          <div class="right-h margin-b-20">
-            <img class="margin-right-5" src="@/assets/home/vip-icon.png" alt="" />
-            <span class="title" style="flex: 1">我的佣金</span>
-            <el-button size="small" type="primary" @click="withdrawVisible = true">立即提现</el-button>
-            <el-dialog v-model="withdrawVisible" title="提现" width="400px">
-              <WithdrawForm />
-            </el-dialog>
-          </div>
-          <div style="background-color: #fffaf4; text-align: center; padding: 10px 0" class="flex row-around">
-            <div>
-              <div style="font-size: 14px; padding-bottom: 10px">未提现佣金</div>
-              <div style="font-size: 24px; color: #ff832b">
-                {{ data_get(userStore.userInfo, 'commission', 0) }}
-              </div>
-            </div>
-            <div>
-              <div style="font-size: 14px; padding-bottom: 10px">已提现</div>
-              <div style="font-size: 24px; color: #ff832b">
-                {{ data_get(userStore.userInfo, 'accumulate_commission', 0) }}
-              </div>
-            </div>
           </div>
         </div>
       </el-col>
