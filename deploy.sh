@@ -60,14 +60,14 @@ echo "cd serve"
 cd serve
 
 if [ ! -e "install.lock" ]; then
-   if ! composer install;then
+   if ! composer install -n;then
        echo "接口安装失败"
        exit 0
    fi
    echo "生成API KEY"
-   php artisan key:generate
+   php artisan key:generate --force
    echo "初始数据库"
-   php artisan migrate
+   php artisan migrate --force
    echo "初始管理员账号"
    php artisan app:system-init
    if [ ! -d "public/storage" ]; then
