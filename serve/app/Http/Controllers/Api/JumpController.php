@@ -90,11 +90,14 @@ class JumpController extends Controller
                         return $this->failed('当前小程序已无可用二维码！');
                     }
                 }
+                $path_str = data_get($link, 'config.url') ?: $mp->url;
+                $path_arr = explode('?',$path_str);
                 $cache['params'] = [
                     'appid' => $mp->app_id,
                     'secret' => $mp->secret,
                     'qr' => $qr ?? null,
-                    'path' => data_get($link, 'config.url') ?: $mp->url,
+                    'path' => $path_arr[0],
+                    'path_query' => $path_arr[1] ?? null,
                 ];
             } elseif ($link->type === LinkType::KING_DOC) {
                 $cache['params']['sid'] = str_replace('https://kdocs.cn/l/', '', data_get($link, 'config.url')); // del
@@ -192,6 +195,9 @@ class JumpController extends Controller
             }
 
             $cache['target'] = data_get($res, 'openlink');
+            if (! empty($cache['params']['path_query'])) {
+                $cache['target'] = $cache['target'].'&'.$cache['params']['path_query'];
+            }
         }
 
         if (isset($cache['target']) && $cache['target']) {

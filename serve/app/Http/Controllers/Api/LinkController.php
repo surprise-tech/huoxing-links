@@ -152,6 +152,8 @@ class LinkController extends FormController
 
         if ($iptType && in_array($iptType, [LinkType::MINI_PROGRAM->value, LinkType::LANDING_MINI->value])) {
             $res['config.min_id'] = 'required';
+            $res['config.domain_id'] = '';
+            $res['config.url'] = '';
         }
 
         if ($iptType === LinkType::CLI_QR->value) {
