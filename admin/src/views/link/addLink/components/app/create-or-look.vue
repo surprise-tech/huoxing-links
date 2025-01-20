@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import MaterialSelect from '@/components/MaterialSelect/MaterialSelect.vue'
 import useForm from '@/hooks/form'
-import { configStore, userStore } from '@/stores'
-import { onMounted, ref } from 'vue'
+import { userStore } from '@/stores'
+import { onMounted, ref, watch } from 'vue'
 import { ApiDomainEnableList } from '@/api/domain'
 import { ApiAppList } from '@/api/app'
 import type { linkConfig } from '@/models/link'
 import OssImage from '@/components/OssImage.vue'
 import UploadImage from '@/components/uploadImage.vue'
-import { getNextMonth } from '@/utils/dateTime'
 
 const formRef = ref()
 const { formData, formLoading } = useForm({
@@ -55,6 +54,10 @@ const selectMin = (value: any) => {
     }
   })
 }
+watch(()=>formData.value.config.url,()=>{
+    //把url 进行编码
+    formData.value.config.url = encodeURIComponent(formData.value.config.url)
+})
 </script>
 
 <template>
