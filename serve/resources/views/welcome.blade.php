@@ -24,7 +24,7 @@
         <div class="main ">
             <div class=" navigation bg-white  d-flex justify-content-between">
                 <div class="d-flex flex-row align-items-center" style="position: relative">
-                    <img src="{!! \Illuminate\Support\Facades\Storage::url(\App\Services\SystemConfig::get('web_site_logo')) !!}"/>
+                    <img class="logo-img" src="{!! \Illuminate\Support\Facades\Storage::url(\App\Services\SystemConfig::get('web_site_logo')) !!}"/>
                     <div class="d-flex flex-row hide-below-1000">
                         <div class="navigation-item home" onclick="scrollAndHighlight('home')">首页</div>
                         <div class="navigation-item features" onclick="scrollAndHighlight('features')">产品功能</div>
