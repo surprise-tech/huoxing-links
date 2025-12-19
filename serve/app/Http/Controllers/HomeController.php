@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-class JumpController extends Controller
+class HomeController extends Controller
 {
     public function show(string $code): \Illuminate\View\View
     {

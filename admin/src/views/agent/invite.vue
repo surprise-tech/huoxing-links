@@ -25,7 +25,6 @@ const { state, sizeChangeHandle, currentChangeHandle } = useCurd({
     >
       <el-table-column prop="id" label="ID" width="60"></el-table-column>
       <el-table-column prop="username" label="手机号"></el-table-column>
-      <el-table-column prop="agent_package.name" label="当前套餐"> </el-table-column>
       <el-table-column prop="credit" label="剩余积分"></el-table-column>
       <el-table-column prop="accumulate_credit" label="累计充值积分"> </el-table-column>
       <el-table-column prop="commission" label="剩余佣金" width="120"> </el-table-column>

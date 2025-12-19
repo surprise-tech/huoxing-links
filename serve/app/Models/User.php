@@ -35,12 +35,6 @@ class User extends Authenticatable
         });
     }
 
-    // vip套餐
-    public function vipPackage(): BelongsTo
-    {
-        return $this->belongsTo(VipPackage::class, 'vip_id');
-    }
-
     // 推荐人
     public function parent(): BelongsTo
     {
@@ -51,22 +45,5 @@ class User extends Authenticatable
     public function children(): HasMany
     {
         return $this->hasMany(self::class, 'parent_id');
-    }
-
-    // 佣金记录
-    public function commissionLogs(): HasMany
-    {
-        return $this->hasMany(CommissionLog::class, 'user_id');
-    }
-
-    // 获取权益配置
-    public function getPackageConfig(?string $key = null)
-    {
-        $package = null;
-        if ($this->vip_id) {
-            $package = $this->vipPackage;
-        }
-
-        return $key ? data_get($package, 'config.'.$key) : $package;
     }
 }

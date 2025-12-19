@@ -104,13 +104,6 @@ const vipPackageChange = (data: any, detail?: any) => {
           <el-tag v-if="row.type == 3" type="danger">管理员</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="vip_package.name" label="当前套餐">
-        <template #default="{ row }">
-          <el-button type="primary" link :icon="Edit" @click="changeForm(row, 'vip_id')">
-            {{ row.vip_package && row.vip_package.name }}
-          </el-button>
-        </template>
-      </el-table-column>
       <el-table-column prop="start_at" label="生效时间"></el-table-column>
       <el-table-column prop="end_at" label="过期时间">
         <template #default="{ row }">

@@ -253,16 +253,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (1, '0001_01_01_000
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (2, '0001_01_01_000001_create_cache_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (3, '0001_01_01_000002_create_jobs_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (5, '2024_04_10_095245_create_vip_packages_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (6, '2024_04_10_101023_create_notices_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (7, '2024_04_10_101140_create_domains_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (8, '2024_04_10_101217_create_mini_programs_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (9, '2024_04_10_101507_create_links_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (10, '2024_04_10_103926_create_link_visit_logs_table', 1);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (11, '2024_04_10_104736_create_payments_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (12, '2024_04_10_104736_create_sys_configs_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (13, '2024_04_15_140100_create_materials_table', 1);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (14, '2024_04_16_084221_create_vip_logs_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (15, '2024_05_08_101122_create_material_categories_table', 1);
 COMMIT;
 
@@ -314,47 +311,6 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for payments
--- ----------------------------
-DROP TABLE IF EXISTS `payments`;
-CREATE TABLE `payments` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '支付编号',
-  `order_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '内部订单号',
-  `channel` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '支付渠道',
-  `amount` bigint unsigned NOT NULL COMMENT '支付金额/分',
-  `type` tinyint unsigned NOT NULL COMMENT '支付类型: 1付款 2退款 3转账',
-  `status` tinyint unsigned NOT NULL COMMENT '状态: 1处理中 2成功 3失败',
-  `success_at` timestamp NULL DEFAULT NULL COMMENT '成功时间',
-  `fail_at` timestamp NULL DEFAULT NULL COMMENT '失败时间',
-  `expired_at` timestamp NULL DEFAULT NULL COMMENT '过期时间',
-  `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  `notification_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方支付通知单号',
-  `notification_data` json DEFAULT NULL COMMENT '第三方支付通知原始数据',
-  `job` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '回调任务',
-  `attach` json DEFAULT NULL COMMENT '附加信息',
-  `payment_id` bigint unsigned DEFAULT NULL COMMENT '退款时关联支付单ID',
-  `merchant_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `merchant_id` bigint unsigned DEFAULT NULL,
-  `payer_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payer_id` bigint unsigned DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `payments_no_unique` (`no`),
-  KEY `payments_merchant_type_merchant_id_index` (`merchant_type`,`merchant_id`),
-  KEY `payments_payer_type_payer_id_index` (`payer_type`,`payer_id`),
-  KEY `payments_type_index` (`type`),
-  KEY `payments_status_index` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='支付记录表';
-
--- ----------------------------
--- Records of payments
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
 -- Table structure for personal_access_tokens
 -- ----------------------------
 DROP TABLE IF EXISTS `personal_access_tokens`;
@@ -400,9 +356,6 @@ BEGIN;
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('ali_sms_key', '', '阿里短信key', NULL, NULL);
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('ali_sms_secret', '', '阿里短信secret', NULL, NULL);
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('ali_sms_sign_name', '', '阿里短信签名', NULL, NULL);
-INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('give_vip_days', '3', '注册赠送会员有效期/天', NULL, NULL);
-INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('give_vip_id', '1', '赠送套餐', NULL, NULL);
-INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('is_give_vip', '1', '开启注册赠送会员', NULL, NULL);
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('mail_from_address', '', '发信地址', NULL, NULL);
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('mail_from_name', '', '发信名称', NULL, NULL);
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('mail_host', '', '服务器地址', NULL, NULL);
@@ -415,11 +368,6 @@ INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) 
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('web_site_customer_service', '/image/web-qr.png', '客服二维码', NULL, NULL);
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('web_site_logo', '/image/toplogo.png', '网站logo浅色', NULL, NULL);
 INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('web_site_title', '蚂蚁快链-智慧引流工具', '网站名称', NULL, NULL);
-INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('wechat_pay_app_id', '', '微信商户appId', NULL, NULL);
-INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('wechat_pay_certificate', '', '微信支付公钥证书', NULL, NULL);
-INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('wechat_pay_mch_id', '', '微信商户号', NULL, NULL);
-INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('wechat_pay_private_cert', '', '微信支付私钥证书', NULL, NULL);
-INSERT INTO `sys_configs` (`slug`, `value`, `desc`, `created_at`, `updated_at`) VALUES ('wechat_pay_secret_key', '', '微信支付密钥', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -455,53 +403,6 @@ CREATE TABLE `users` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `users` (`id`, `username`, `password`, `status`, `type`, `credit`, `accumulate_credit`, `commission`, `accumulate_commission`, `vip_id`, `agent_id`, `level_id`, `start_at`, `end_at`, `parent_id`, `referral_code`, `created_at`, `updated_at`) VALUES (1, 'admin', '$2y$12$DQNA/1BJcPdmpJ9ylifXHO9X.RDaovOj4SHL5M6S/vr9lvnFND5Gy', 1, 3, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '100000', '2025-01-15 08:41:32', '2025-01-15 08:41:32');
-COMMIT;
-
--- ----------------------------
--- Table structure for vip_logs
--- ----------------------------
-DROP TABLE IF EXISTS `vip_logs`;
-CREATE TABLE `vip_logs` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint unsigned NOT NULL COMMENT '会员id',
-  `payment_id` bigint unsigned DEFAULT NULL COMMENT '支付ID',
-  `vip_id` bigint unsigned DEFAULT NULL COMMENT '会员ID',
-  `status` tinyint unsigned NOT NULL COMMENT '状态',
-  `start_at` timestamp NOT NULL COMMENT '开始时间',
-  `end_at` timestamp NOT NULL COMMENT '结束时间',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='VIP购买记录表';
-
--- ----------------------------
--- Records of vip_logs
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
--- Table structure for vip_packages
--- ----------------------------
-DROP TABLE IF EXISTS `vip_packages`;
-CREATE TABLE `vip_packages` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '套餐名称',
-  `price` bigint unsigned NOT NULL COMMENT '价格/月',
-  `level` tinyint unsigned NOT NULL COMMENT '等级',
-  `config` json NOT NULL COMMENT '权益配置',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='vip套餐配置';
-
--- ----------------------------
--- Records of vip_packages
--- ----------------------------
-BEGIN;
-INSERT INTO `vip_packages` (`id`, `name`, `price`, `level`, `config`, `created_at`, `updated_at`) VALUES (1, '体验套餐', 0, 0, '{\"pre_min\": false, \"support\": true, \"uv_limit\": 9, \"cur_index\": false, \"allow_type\": {\"CLI_QR\": false, \"KING_DOC\": false, \"WORK_WECHAT\": false, \"LANDING_MINI\": false, \"MINI_PROGRAM\": true}, \"count_limit\": 1, \"min_count_limit\": 1, \"min_disabled_check\": true}', '2024-04-11 12:49:52', '2024-09-29 08:28:55');
-INSERT INTO `vip_packages` (`id`, `name`, `price`, `level`, `config`, `created_at`, `updated_at`) VALUES (2, '初级会员', 4300, 1, '{\"pre_min\": true, \"support\": true, \"uv_limit\": 50, \"cur_index\": true, \"allow_type\": {\"CLI_QR\": true, \"KING_DOC\": true, \"WORK_WECHAT\": true, \"LANDING_MINI\": true, \"MINI_PROGRAM\": true}, \"count_limit\": 5, \"min_count_limit\": 5, \"min_disabled_check\": true}', '2024-04-17 14:27:19', '2024-09-29 08:29:32');
-INSERT INTO `vip_packages` (`id`, `name`, `price`, `level`, `config`, `created_at`, `updated_at`) VALUES (3, '高级会员', 29800, 2, '{\"pre_min\": true, \"support\": true, \"uv_limit\": 100000, \"cur_index\": true, \"allow_type\": {\"CLI_QR\": true, \"KING_DOC\": true, \"WORK_WECHAT\": true, \"LANDING_MINI\": true, \"MINI_PROGRAM\": true}, \"count_limit\": 50, \"min_count_limit\": 10, \"min_disabled_check\": true}', '2024-04-22 17:40:28', '2024-09-29 08:29:49');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

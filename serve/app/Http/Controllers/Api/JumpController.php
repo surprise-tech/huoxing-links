@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\LinkType;
 use App\Enums\SwitchType;
-use App\Enums\UserType;
 use App\Enums\UVLimitType;
 use App\Http\Controllers\Controller;
 use App\Models\Link;
 use App\Models\LinkVisitLog;
 use App\Models\MiniProgram;
 use App\Models\User;
-use App\Models\VipPackage;
 use EasyWeChat\MiniApp\Application as WechatApp;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -44,10 +42,6 @@ class JumpController extends Controller
         if (empty($user->status)) {
             return $this->failed('账号被禁用！');
         }
-        $isAdmin = $user->type === UserType::Admin;
-        if (! $isAdmin && ! $user->vip_id) {
-            return $this->failed('会员已到期，禁止访问！');
-        }
 
         $device_uid = $request->input('device_uid') ?: Str::uuid();
         $cache = data_get(LinkVisitLog::query()
@@ -56,20 +50,6 @@ class JumpController extends Controller
             ->orderByDesc('id')
             ->first(), 'cache', []);
         if (empty($cache)) {
-            if (! $isAdmin) {
-                // 会员UV限制
-                $totalUV = LinkVisitLog::query()
-                    ->where('link_id', $link->id)
-                    ->groupBy('device_uid')
-                    ->whereBetween('created_at', [$user->start_at, $user->end_at])
-                    ->count();
-                $limit = (int) data_get(VipPackage::query()->find($user->vip_id), 'config.uv_limit');
-
-                if ($limit > 0 && $totalUV >= $limit) {
-                    return $this->failed('当前访问已达上限！');
-                }
-            }
-
             $cache = [
                 'title' => $link->title,
                 'description' => $link->description,

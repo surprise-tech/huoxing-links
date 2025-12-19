@@ -11,9 +11,6 @@ class BaseConfig implements SimpleForm
     public function policy(Request $request): array
     {
         return $request->validate([
-            'is_give_vip' => 'nullable', // 开启赠送
-            'give_vip_days' => 'nullable|integer|min:0|max:365', //赠送天数
-            'give_vip_id' => 'nullable|integer', //赠送套餐
             'recommend_commission' => 'nullable|integer', // 推荐佣金
 
             'web_site_customer_service' => 'nullable',
@@ -34,12 +31,6 @@ class BaseConfig implements SimpleForm
             'mail_from_address' => 'nullable',
             'mail_username' => 'nullable',
             'mail_password' => 'nullable',
-
-            'wechat_pay_app_id' => 'nullable',
-            'wechat_pay_mch_id' => 'nullable',
-            'wechat_pay_secret_key' => 'nullable',
-            'wechat_pay_private_cert' => 'nullable',
-            'wechat_pay_certificate' => 'nullable',
         ]);
     }
 
@@ -54,10 +45,6 @@ class BaseConfig implements SimpleForm
     public function default(): array
     {
         return [
-            'is_give_vip' => (bool) SystemConfig::get('is_give_vip'),
-            'give_vip_id' => SystemConfig::get('give_vip_id'),
-            'give_vip_days' => SystemConfig::get('give_vip_days'),
-
             'web_site_customer_service' => SystemConfig::get('web_site_customer_service'),
             'web_site_title' => SystemConfig::get('web_site_title'),
             'web_site_logo' => SystemConfig::get('web_site_logo'),
@@ -76,12 +63,6 @@ class BaseConfig implements SimpleForm
             'mail_from_address' => SystemConfig::get('mail_from_address'),
             'mail_username' => SystemConfig::get('mail_username'),
             'mail_password' => SystemConfig::get('mail_password'),
-
-            'wechat_pay_app_id' => SystemConfig::get('wechat_pay_app_id'),
-            'wechat_pay_mch_id' => SystemConfig::get('wechat_pay_mch_id'),
-            'wechat_pay_secret_key' => SystemConfig::get('wechat_pay_secret_key'),
-            'wechat_pay_private_cert' => SystemConfig::get('wechat_pay_secret_key'), // 私钥证书
-            'wechat_pay_certificate' => SystemConfig::get('wechat_pay_certificate'), // 公钥证书
         ];
     }
 }

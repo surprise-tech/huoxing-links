@@ -16,22 +16,12 @@ class MiniProgramController extends FormController
     public function home(): JsonResponse
     {
         $user = auth('api')->user();
-        $is_pre_min = false;
-        if ($user->start_at < now() && $user->end_at > now()) {
-            // 套餐包含官方小程序池使用
-            $is_pre_min = $user->getPackageConfig('pre_min');
-        }
         $query = MiniProgram::search([
             'name' => 'like',
             'type' => '=',
             'is_enable' => '=',
         ], ['user:id,username'])
-            ->where(fn ($query) => $query->where('user_id', $user->id)
-                ->when(
-                    $is_pre_min,
-                    fn ($query) => $query->orWhere('is_pre_min', true)
-                )
-            )
+            ->where(fn ($query) => $query->where('user_id', $user->id))
             ->orderByDesc('id')
             ->get();
 
@@ -74,16 +64,8 @@ class MiniProgramController extends FormController
             if ($user->type === UserType::Admin) {
                 return true;
             }
-            if ($form->isCreate()) {
-                $min_count_limit = (int) $user->getPackageConfig('min_count_limit');
-                if ($min_count_limit <= MiniProgram::query()->where('user_id', $user->id)->count()) {
-                    return '创建小程序数量已达上限！';
-                }
 
-                return true;
-            }
-
-            return $form->getModel()->user_id === $user->id;
+            return $form->isCreate() || $form->getModel()->user_id === $user->id;
         });
 
         $form->handleInput(function (FormService $formService) use ($user) {

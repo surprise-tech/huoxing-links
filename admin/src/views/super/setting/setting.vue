@@ -4,8 +4,6 @@ import { ApiGetSetALL } from '@/api/comment'
 
 import Web from '@/views/super/setting/components/web.vue'
 import CodeSetUp from '@/views/super/setting/components/codeSetUp.vue'
-import Pay from '@/views/super/setting/components/pay.vue'
-import Sales from '@/views/super/setting/components/sales.vue'
 
 const formData = ref<any>({})
 
@@ -26,12 +24,6 @@ const tab = ref('web')
         </el-tab-pane>
         <el-tab-pane label="验证码配置" name="code">
           <CodeSetUp :data="formData"></CodeSetUp>
-        </el-tab-pane>
-        <el-tab-pane label="支付配置" name="pay">
-          <Pay :data="formData"></Pay>
-        </el-tab-pane>
-        <el-tab-pane label="注册赠送会员" name="sales">
-          <Sales :data="formData"></Sales>
         </el-tab-pane>
       </el-tabs>
     </el-card>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Enums\UserType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,10 +21,6 @@ class UserResource extends JsonResource
             'type' => $this->type,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
-            // 'credit' => $this->credit,
-            $this->mergeWhen($this->type === UserType::MEMBER, [
-                'vip_package' => $this->vipPackage,
-            ]),
             'parent' => new UserSimpleResource($this->whenLoaded('parent')),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'login_time' => $this->login_time?->format('Y-m-d H:i:s'),

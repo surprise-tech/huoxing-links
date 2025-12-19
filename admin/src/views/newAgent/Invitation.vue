@@ -14,7 +14,7 @@
       :row-key="state.primaryKey"
     >
       <el-table-column prop="id" label="ID" width="60"></el-table-column>
-      <el-table-column prop="username" label="手机号"></el-table-column>
+      <el-table-column prop="username" label="账号"></el-table-column>
       <el-table-column prop="created_at" label="注册时间"></el-table-column>
 
       <template #empty>

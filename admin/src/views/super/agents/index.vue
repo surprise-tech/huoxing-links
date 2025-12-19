@@ -99,15 +99,6 @@ const commissionShow = (user_id: any) => {
     >
       <el-table-column prop="id" label="ID" width="60"></el-table-column>
       <el-table-column prop="username" label="手机号" width="120"> </el-table-column>
-      <el-table-column prop="agent_package.name" label="当前套餐"> </el-table-column>
-      <!--<el-table-column prop="agent_level.name" label="级别">
-        <template #default="{ row }">
-          <el-button type="primary" link :icon="Edit" @click="changeForm(row, 'level_id')">
-            <span v-if="row.agent_level && row.agent_level.name">{{ row.agent_level.name }}</span>
-            <span v-else></span>
-          </el-button>
-        </template>
-      </el-table-column>-->
       <el-table-column prop="credit" label="剩余积分">
         <template #default="{ row }">
           <el-button type="primary" link :icon="Edit" @click="changeForm(row, 'credit')">

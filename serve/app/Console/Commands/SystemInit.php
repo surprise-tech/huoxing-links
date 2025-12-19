@@ -68,21 +68,6 @@ class SystemInit extends Command
                 'desc' => '阿里短信签名',
             ],
             [
-                'slug' => 'give_vip_days',
-                'value' => '3',
-                'desc' => '注册赠送会员有效期/天',
-            ],
-            [
-                'slug' => 'give_vip_id',
-                'value' => '1',
-                'desc' => '赠送套餐',
-            ],
-            [
-                'slug' => 'is_give_vip',
-                'value' => '1',
-                'desc' => '开启注册赠送会员',
-            ],
-            [
                 'slug' => 'mail_from_address',
                 'value' => '',
                 'desc' => '发信地址',
@@ -141,31 +126,6 @@ class SystemInit extends Command
                 'slug' => 'web_site_title',
                 'value' => '蚂蚁快链-智慧引流工具',
                 'desc' => '网站名称',
-            ],
-            [
-                'slug' => 'wechat_pay_app_id',
-                'value' => '',
-                'desc' => '微信商户appId',
-            ],
-            [
-                'slug' => 'wechat_pay_certificate',
-                'value' => '',
-                'desc' => '微信支付公钥证书',
-            ],
-            [
-                'slug' => 'wechat_pay_mch_id',
-                'value' => '',
-                'desc' => '微信商户号',
-            ],
-            [
-                'slug' => 'wechat_pay_private_cert',
-                'value' => '',
-                'desc' => '微信支付私钥证书',
-            ],
-            [
-                'slug' => 'wechat_pay_secret_key',
-                'value' => '',
-                'desc' => '微信支付密钥',
             ],
         ];
     }

@@ -64,36 +64,6 @@ class LinkController extends FormController
             if ($user->type === UserType::Admin) {
                 return true;
             }
-            if ($form->isCreate()) {
-                $config = data_get($user->getPackageConfig(), 'config');
-
-                // 类型限制
-                $typeName = LinkType::from((int) request()->input('type'))->name;
-                if (! data_get($config, 'allow_type.'.$typeName)) {
-                    return '当前套餐不支持该类型链接！';
-                }
-
-                // 会员，数量限制
-                if (
-                    $user->type === UserType::MEMBER &&
-                    data_get($config, 'count_limit') <= Link::query()->where('user_id', $user->id)->count()
-                ) {
-                    return '拥有的链接数量已达上限！';
-                }
-
-                // 是否允许自定义落地页
-                $inputConfig = request()->input('config');
-                if (
-                    ! data_get($config, 'cur_index') &&
-                    (
-                        data_get($inputConfig, 'wx.avatar') ||
-                        data_get($inputConfig, 'wx.title') ||
-                        data_get($inputConfig, 'wx.sub_title')
-                    )
-                ) {
-                    return '当前套餐不允许自定义落地页！';
-                }
-            }
 
             return $form->isCreate() || $form->getModel()->user_id === $user->id;
         });

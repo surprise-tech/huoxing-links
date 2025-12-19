@@ -31,21 +31,6 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    // 微信支付
-    'wechat_pay' => [
-        'appid' => env('WECHAT_PAY_APP_ID'),
-        'mch_id' => env('WECHAT_PAY_MCH_ID'),
-        'secret_key' => env('WECHAT_PAY_SECRET_KEY'),
-        // 商户证书
-        'private_key' => storage_path('/certs/apiclient_key.pem'),
-        'certificate' => storage_path('/certs/apiclient_cert.pem'),
-        'platform_certs' => [
-            storage_path('/certs/wechatpay.pem'),
-        ],
-        'http' => [
-            'throw' => false,
-        ],
-    ],
     // 阿里短信配置
     'ali_sms' => [
         'key' => env('ALI_SMS_KEY'),

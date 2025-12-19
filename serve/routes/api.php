@@ -11,13 +11,10 @@ use App\Http\Controllers\Api\MaterialCateController;
 use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\MiniProgramController;
 use App\Http\Controllers\Api\NoticeController;
-use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\VipPackageController;
 use App\Http\Controllers\UpgradeController;
 use App\Http\Middleware\ApiAuth;
-use App\PayChannels\WeChatPayNative;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +24,6 @@ Route::post('/register', [AuthController::class, 'register']); // 注册
 Route::post('/reset-password', [AuthController::class, 'resetPassword']); // 重置密码
 Route::get('/captcha/image', [CaptchaController::class, 'image']); // 登录
 Route::post('/captcha/sms', [CaptchaController::class, 'sms']); // 获取短信验证码
-Route::post('/wechat/payment_notify', [WeChatPayNative::class, 'notify']); // 微信支付回调
 
 // 获取链接重定向目标
 Route::get('/link-target/{code}', [JumpController::class, 'target']); // 获取链接跳转地址
@@ -58,9 +54,6 @@ Route::middleware(ApiAuth::class)->group(function (Router $router) {
     $router->get('link-list', [LinkController::class, 'link_list']); // 获取下拉数据源
 
     $router->get('/agent-invite', [UserController::class, 'invite']); // 邀请记录
-
-    // 购买会员
-    $router->post('/buy-vip', [AuthController::class, 'buyVip']);
 });
 
 // 仅管理员可访问
@@ -69,12 +62,8 @@ Route::middleware(ApiAuth::class.':admin')->group(function (Router $router) {
     $router->apiResource('notices', NoticeController::class)->except('show');
     // 添加/编辑公告
     $router->put('notice', [NoticeController::class, 'set_notice']);
-
     // 域名
     $router->apiResource('domains', DomainController::class)->except(['index', 'show']);
-    // VIP套餐
-    $router->apiResource('vip-packages', VipPackageController::class)->except('show');
-
     // 设置
     $router->get('config/{type}', [ConfigController::class, 'getForm']);
     // 保存设置
@@ -82,7 +71,5 @@ Route::middleware(ApiAuth::class.':admin')->group(function (Router $router) {
     // 用户
     $router->apiResource('users', UserController::class)->only(['index', 'store', 'update']);
     $router->get('agent-tree', [UserController::class, 'agent_tree']); // 树状用户
-
-    $router->get('payments', [PaymentController::class, 'index']); // 付款记录
 });
 Route::get('upgrade_status', [UpgradeController::class, 'index']); // 请求最新版本

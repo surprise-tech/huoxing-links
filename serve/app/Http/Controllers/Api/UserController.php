@@ -6,7 +6,6 @@ use App\Enums\UserType;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Models\VipPackage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Ugly\Base\Traits\ApiResource;
@@ -20,7 +19,7 @@ class UserController extends Controller
         $query = User::search([
             'type' => '=',
             'username' => 'like',
-        ], ['vipPackage:id,name', 'parent'])
+        ], ['parent'])
             ->whereIn('type', [UserType::MEMBER])
             ->orderByDesc('id');
 
@@ -56,23 +55,6 @@ class UserController extends Controller
         $user = User::query()->whereIn('type', [UserType::MEMBER, UserType::AGENT])->findOrFail($id);
 
         $params = $request->only(['status', 'vip_id', 'end_at', 'credit']);
-
-        $pack_id = $params['vip_id'] ?? null;
-        $model = VipPackage::class;
-
-        $pak = $user->getPackageConfig();
-        if ($pak?->id == $pack_id) {
-            return $this->failed('没有修改');
-        }
-        if ($pack_id) {
-            if (app($model)->where('id', $pack_id)->doesntExist()) {
-                return $this->failed('套餐不存在');
-            }
-            $params['end_at'] = now()->addMonth();
-            if (empty($user->start_at)) {
-                $user->start_at = now();
-            }
-        }
 
         $user->update($params);
 

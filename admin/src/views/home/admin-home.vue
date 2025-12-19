@@ -71,9 +71,8 @@ const getHomeData = async (type: any) => {
     member_count: res.member_count,
     agent_count: res.agent_count,
     user_count: res.user_count,
-    pay_vip: res.pay_vip,
-    pay_agent: res.pay_agent,
-    pay_count: res.pay_count,
+    card_count: res.card_count,
+    uv_count: res.uv_count,
   }
   // 用户增长趋势
   if (res.user_growth.length > 0) {
@@ -116,24 +115,24 @@ onMounted(() => {
         </div>
         <img src="@/assets/admin-home/use-count.png" alt="" />
       </div>
-      <!--   会员数   -->
+      <!--   卡片数量   -->
       <div class="item-box vip-count-bg">
         <div class="item-box-l">
-          <span class="name">支付会员数</span>
+          <span class="name">卡片数量</span>
           <div>
-            <span class="value">{{ dataValue?.pay_count || 0 }}</span>
-            <span>人</span>
+            <span class="value">{{ dataValue?.card_count || 0}}</span>
+            <span>个</span>
           </div>
         </div>
         <img src="@/assets/admin-home/use-count.png" alt="" />
       </div>
-      <!--   会员收入   -->
+      <!--   卡片过期数量   -->
       <div class="item-box vip-inp-bg">
         <div class="item-box-l">
-          <span class="name">购买会员收入</span>
+          <span class="name">UV次数</span>
           <div>
-            <span class="value">{{ dataValue?.pay_vip }}</span>
-            <span>元</span>
+            <span class="value">{{ dataValue?.uv_count || 0}}</span>
+            <span>次</span>
           </div>
         </div>
         <img src="@/assets/admin-home/use-count.png" alt="" />

@@ -122,14 +122,6 @@ const apiRouter: IMenu[] = [
           title: '会员管理'
         }
       },
-      {
-        path: '/super/vipSetMeal',
-        name: 'vipSetMeal',
-        component: '/super/vipSetMeal/index',
-        meta: {
-          title: 'vip套餐'
-        }
-      },
     ]
   },
   {
@@ -168,14 +160,6 @@ const apiRouter: IMenu[] = [
         component: '/super/domains/index',
         meta: {
           title: '域名管理'
-        }
-      },
-      {
-        path: '/super/payRecord',
-        name: 'payRecord',
-        component: '/super/payRecord/index',
-        meta: {
-          title: '付款记录'
         }
       }
     ]
