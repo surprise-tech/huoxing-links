@@ -16,22 +16,40 @@ class WeChatPayNative
 
     private Application $payApp;
 
+    private $appid;
+    private $mchid;
+
     public function __construct()
     {
-        $config = [
-            'appid' => SystemConfig::get('wechat_pay_app_id'),
-            'mch_id' => SystemConfig::get('wechat_pay_mch_id'),
-            'secret_key' => SystemConfig::get('wechat_pay_secret_key'),
-            // 商户证书
-            'private_key' => SystemConfig::get('wechat_pay_secret_key'),
-            'certificate' => SystemConfig::get('wechat_pay_certificate'),
-            /*'platform_certs' => [
-                storage_path('/certs/wechatpay.pem'),
-            ],*/
-            'http' => [
-                'throw' => false,
-            ],
-        ];
+        $this->appid = SystemConfig::get('wechat_pay_app_id');
+        $this->mchid = SystemConfig::get('wechat_pay_mch_id');
+
+        if (!empty($this->appid) && !empty(!$this->mchid)) {
+            $config = [
+                'appid' => $this->appid,
+                'mch_id' => $this->mchid,
+                'secret_key' => SystemConfig::get('wechat_pay_secret_key'),
+                // 商户证书
+                'private_key' => SystemConfig::get('wechat_pay_secret_key'),
+                'certificate' => SystemConfig::get('wechat_pay_certificate'),
+                /*'platform_certs' => [
+                    storage_path('/certs/wechatpay.pem'),
+                ],*/
+                'http' => [
+                    'throw' => false,
+                ],
+            ];
+        } else {
+            $config = config('services.wechat_pay');
+            unset($config['platform_certs']);
+            $this->appid = $config['appid'];
+            $this->mchid = $config['mch_id'];
+        }
+
+        if (empty($this->appid) || empty($this->mchid)) {
+            throw new ApiCustomError('请完善支付配置信息！');
+        }
+
         $this->payApp = new Application($config);
     }
 
@@ -39,8 +57,8 @@ class WeChatPayNative
     public function pay($payment, array $data = []): array
     {
         $payInfo = $this->payApp->getClient()->postJson('v3/pay/transactions/native', [
-            'appid' => config('services.wechat_pay.appid'),
-            'mchid' => config('services.wechat_pay.mch_id'),
+            'appid' => $this->appid,
+            'mchid' => $this->mchid,
             'description' => data_get($data, 'description', ''),
             'out_trade_no' => $payment->no,
             'notify_url' => config('app.url').'/api/wechat/payment_notify',
