@@ -127,13 +127,6 @@ class AuthController extends Controller
         $user = $request->user('api');
         $vip = VipPackage::query()->findOrFail($request->input('vip_id'));
 
-        if (SystemConfig::get('wechat_pay_app_id') == null ||
-            SystemConfig::get('wechat_pay_mch_id') == null ||
-            SystemConfig::get('wechat_pay_secret_key') == null ||
-            SystemConfig::get('wechat_pay_secret_key') == null ||
-            SystemConfig::get('wechat_pay_certificate') == null) {
-            return $this->failed('清设置支付信息');
-        }
         try {
             $res = Payment::pay(
                 channel: WeChatPayNative::class,
@@ -151,7 +144,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             info($e->getMessage());
 
-            return $this->failed('支付失败!');
+            return $this->failed('支付失败!'.$e->getMessage());
         }
     }
 }
