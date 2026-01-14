@@ -64,27 +64,6 @@ const clickSubmit = () => {
           <span class="tip">只能上传jpg/png，建议大小100*100，且不超过1Mb</span>
         </div>
       </div>
-      <div class="m-b-20 m-t-20">底部LOGO图片信息</div>
-      <div class="item-box">
-        <oss-image
-          class="margin-right-20"
-          :paths="webFormData.web_site_bottom_logo ? [webFormData.web_site_bottom_logo] : []"
-          :width="100"
-          :height="100"
-        ></oss-image>
-        <div>
-          <div class="function-img m-b-20">
-            <upload-image
-              class="margin-right-10"
-              :type="['image/jpg', 'image/jpeg', 'image/png']"
-              :size="1"
-              v-model="webFormData.web_site_bottom_logo"
-            ></upload-image>
-            <material-select v-model="webFormData.web_site_bottom_logo" class="margin-right-20"></material-select>
-          </div>
-          <span class="tip">只能上传jpg/png，且不超过1Mb</span>
-        </div>
-      </div>
       <div class="m-b-20 m-t-20">上传客服二维码</div>
       <div class="item-box">
         <oss-image
