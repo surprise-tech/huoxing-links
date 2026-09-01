@@ -44,6 +44,8 @@
 
 				if (e.data.type === 4) {
 					window.open(e.data.target, '_blank');
+				} else if (e.data.target) {
+					window.location.href = e.data.target;
 				}
 			}, false);
 		</script>

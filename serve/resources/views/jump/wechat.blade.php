@@ -262,16 +262,23 @@ SUVORK5CYII=" />
                         document.querySelector('#jump-btn').innerText = data.message;
                         document.querySelector('#jump-btn').classList.add('btn-disable');
                     } else {
-                        window.parent.postMessage(data, '*');
                         targetResponse = data;
-                        jump();
+                        if (window.parent !== window) {
+                            window.parent.postMessage(data, '*');
+                        } else {
+                            jump();
+                        }
                     }
                 })
         }
 
         function jump() {
-            if (targetResponse) {
-                window.location.href = targetResponse.target;
+            if (targetResponse && targetResponse.target) {
+                if (window.parent !== window) {
+                    window.top.location.href = targetResponse.target;
+                } else {
+                    window.location.href = targetResponse.target;
+                }
             }
         }
 
