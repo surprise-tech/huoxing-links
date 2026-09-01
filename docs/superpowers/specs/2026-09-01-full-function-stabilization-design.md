@@ -1,7 +1,7 @@
-# 火星快链非支付全功能稳定化设计
+# 链接 SaaS 非支付全功能稳定化设计
 
 日期：2026-09-01
-状态：待用户书面审阅
+状态：已获用户批准，进入实施计划
 基线：`de6c4cd6ba888d2d7f0d8980a4369244830104bc`
 
 ## 1. 背景与目标
@@ -26,6 +26,7 @@
 10. 六类链接均能返回可打开的 canonical 分享地址；停用、用户禁用、会员过期和越权引用均有稳定错误码且不写访问日志。
 11. API 响应、缓存、访问日志和前端状态中均不得出现小程序 Secret、短信密钥或其他明文凭据。
 12. 上线产物的用户界面、标题、Logo、客服、版权和帮助文案不出现“火星快链”、原作者联系方式或原演示品牌；开源许可证与必须保留的归属声明仅保留在许可证/合规文件中。
+13. 后端运行在 PHP 8.3 与仍受安全支持的 Laravel 13；管理端使用仍受支持的 Vue/Vite 工具链。Composer 与管理端生产依赖审计不得含未处置的 high/critical 公告，所有较低等级残余必须在发布证据中逐项记录。
 
 ## 3. 范围
 
@@ -68,6 +69,8 @@
 唯一 SaaS 实例使用一个 `PUBLIC_ORIGIN` 作为 canonical origin，由部署环境注入，不写入构建产物源码。路由关系固定为：管理端 `${PUBLIC_ORIGIN}/web`、API `${PUBLIC_ORIGIN}/api`、分享页 `${PUBLIC_ORIGIN}/?code={code}`、内部跳转页 `${PUBLIC_ORIGIN}/j/{code}`。管理端和分享页都使用相对 `/api` 请求，因此浏览器主链路不需要跨域。
 
 管理员添加的其他分享域名必须解析到同一 SaaS 实例、配置有效 HTTPS 证书并进入 `ALLOWED_SHARE_HOSTS`；Nginx 为每个域名提供相同的分享页、`/j` 和 `/api` 反向代理。Cookie 仅在各自分享域名生效。uni-app 使用 canonical `${PUBLIC_ORIGIN}/api`，该域名必须加入微信小程序 request 合法域名。DNS 由运营方在云平台配置，本项目只读验证解析结果；数据库迁移、密钥和服务器运维均为运营方动作，不属于普通用户安装流程。生产运行不允许继续依赖直接编辑 `admin/dist/config.js` 或 `jump/a_dev.html`。
+
+统一托管版本不提供公网 Web 安装器；`/install` 路由、写 `.env` 和导入 SQL dump 的页面流程移除。安装、迁移、Seeder 和首次管理员创建只允许通过受控 CLI 完成，数据库不可用时公开页面返回无内部细节的 503。
 
 ### 4.2 会员与权益
 
@@ -131,9 +134,9 @@
 
 设备标识由服务端签发的随机 `visitor_id` Cookie 提供，客户端传入的 `device_uid` 不能直接作为可信额度凭据。Cookie 使用 `Secure`、`HttpOnly`、`SameSite=Lax`，作用域为当前分享域名，有效期一年。不同顶级分享域名无法共享 Cookie，同一物理访客跨域时可能被重复计数；这是偏保守的额度边界，不会少计用量。
 
-账号 UV 在 `link-target` 成功解析前完成一次计量。只有个人微信二维码 `LANDING_MINI` 需要在小程序内再次读取已选择的二维码，因此后端仅为该类型把 `visitor_id`、链接代码和十分钟过期时间封装为 HMAC 签名的 `visitor_token`；普通微信小程序 `MINI_PROGRAM` 不携带 visitor token，也不向客户小程序传递访客身份。
+账号 UV 在 `link-target` 成功解析前完成一次计量。只有个人微信二维码 `LANDING_MINI` 需要在小程序内再次读取已选择的二维码，因此后端仅为该类型用独立密钥把 `visitor_id`、链接代码和十分钟过期时间进行认证加密，生成不可解读且防篡改的 `visitor_token`；普通微信小程序 `MINI_PROGRAM` 不携带 visitor token，也不向客户小程序传递访客身份。
 
-`news.vue` 接收 `code` 和 `visitor_token`，将 token 原样提交给 `link-show-qr`；后端验证签名、链接绑定和过期时间后读取首次解析时已选择的二维码，且该第二次请求不重复消耗账号 UV。原始 `visitor_id` 不暴露到 URL。IP 与 User-Agent 只保存使用独立环境密钥计算的不可逆哈希，用于滥用检测，保留 30 天后清理；原始 IP/User-Agent 不进入长期统计表。
+`news.vue` 接收 `code` 和 `visitor_token`，将 token 原样提交给 `link-show-qr`；后端完成认证解密并验证链接绑定和过期时间后读取首次解析时已选择的二维码，且该第二次请求不重复消耗账号 UV。原始 `visitor_id` 不暴露到 URL。IP 与 User-Agent 只保存使用独立环境密钥计算的不可逆哈希，用于滥用检测，保留 30 天后清理；原始 IP/User-Agent 不进入长期统计表。
 
 ### 4.5 UV 与滚动额度
 
@@ -191,7 +194,7 @@ Laravel migrations 和 seeders 成为唯一的全新安装来源：
 
 ### 5.2 落地页与 postMessage
 
-`jump/a_dev.html` 必须校验 `event.origin` 和 `event.source`，只接受预期 iframe 的消息；目标 URL 必须经过协议和域名策略验证。生产域名、API 地址和路径通过部署配置生成，不要求直接编辑构建产物。
+canonical 分享地址保持 `{PUBLIC_ORIGIN}/?code={code}`。Laravel 根路由在存在合法 `code` 时渲染 `serve/resources/views/jump/shell.blade.php`，无 `code` 时才渲染白标营销首页；分享壳 iframe 指向同源 `/j/{code}`。现有 `jump/a_dev.html` 的功能迁入该 Blade 后删除，避免独立静态文件与 Nginx/域名配置漂移。分享壳必须校验 `event.origin` 和 `event.source`，只接受预期 iframe 的消息；目标 URL 必须经过协议和域名策略验证。
 
 ### 5.3 uni-app
 
@@ -229,7 +232,7 @@ Laravel migrations 和 seeders 成为唯一的全新安装来源：
 
 `phpunit.xml` 必须显式指定测试数据库和测试邮件/队列驱动；现有发送邮件、`dd()` token 和修改固定用户/VIP 的测试必须删除或改写为隔离测试。测试启动时若检测到数据库名、主机或环境不符合测试白名单，立即失败。
 
-- 单元测试：滚动月周期边界、29–31 日锚点、会员首次开通/续期/升级/降级/撤销、二维码过滤/顺序/随机、权益判断、签名 visitor token 和各处理器响应解析。
+- 单元测试：滚动月周期边界、29–31 日锚点、会员首次开通/续期/升级/降级/撤销、二维码过滤/顺序/随机、权益判断、认证加密 visitor token 和各处理器响应解析。
 - 功能测试：注册登录、有效/无效推荐码、自推荐/重复注册、邀请记录、权限隔离、素材/域名/小程序/链接 CRUD、链接数与小程序数限制、会员到期，以及跨租户小程序引用。
 - 集成测试：六类跳转的成功、超时、外部错误、无效配置、账号 UV 上限、已计访客在满额后的重复访问、并发新访客不超额和多链接合计。
 - 安全测试：API、缓存、访问日志和数据库无明文 Secret；SSRF 私网目标和非法重定向被拒绝；链接停用、用户禁用、会员过期和越权请求不写访问日志。
@@ -278,7 +281,7 @@ Laravel migrations 和 seeders 成为唯一的全新安装来源：
 以下信息由用户在受控环境配置，不通过聊天或公开仓库传递：
 
 - 微信小程序 AppID、Secret 与可测试的已发布小程序。
-- 短信服务账号与模板。
+- 阿里短信账号、签名和模板，以及邮箱验证码模式所需的 SMTP 账号。
 - 可测试的企业微信、金山文档、草料二维码和腾讯优码链接。
 - 服务器登录方式、数据库生产凭据和证书签发权限。
 
