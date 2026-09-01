@@ -203,6 +203,7 @@ class JumpController extends Controller
                 'cache' => $cache,
             ]);
             unset($cache['params']);
+            $cache['type'] = $link->type->value;
 
             return $this->success($cache);
         } else {
