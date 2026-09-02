@@ -339,7 +339,8 @@ git commit -m "build: add secure Android release signing"
 cd .worktrees/douyin-android-share
 docker compose -f compose.test.yaml up -d --wait
 cd serve
-vendor/bin/phpunit tests/Feature/CardJumpOnlyTest.php tests/Unit/Services/LinkShareUrlTest.php
+TEST_ENV_SENTINEL=link_saas_test_wrapper \
+  vendor/bin/phpunit tests/Feature/CardJumpOnlyTest.php tests/Unit/Services/LinkShareUrlTest.php
 ```
 
 Expected: PASS; stop if membership, URL or QR behavior regresses.
@@ -726,7 +727,8 @@ Ask for the exact Douyin ID used on `NX789J`. Immediately before adding it, conf
 cd .worktrees/douyin-android-share
 docker compose -f compose.test.yaml up -d --wait
 cd serve
-vendor/bin/phpunit tests/Feature/CardJumpOnlyTest.php tests/Unit/Services/LinkShareUrlTest.php
+TEST_ENV_SENTINEL=link_saas_test_wrapper \
+  vendor/bin/phpunit tests/Feature/CardJumpOnlyTest.php tests/Unit/Services/LinkShareUrlTest.php
 cd ../android
 ./gradlew --no-daemon clean testDebugUnitTest connectedDebugAndroidTest lintRelease assembleRelease
 bash scripts/verify-release-apk.sh app/build/outputs/apk/release/app-release.apk
