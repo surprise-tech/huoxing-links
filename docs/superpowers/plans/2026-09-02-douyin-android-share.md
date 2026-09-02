@@ -117,7 +117,7 @@ Create `android/gradle/libs.versions.toml` with these exact stable versions from
 
 ```toml
 [versions]
-coreKtx = "1.19.0"
+coreKtx = "1.16.0"
 appcompat = "1.8.0"
 material = "1.14.0"
 lifecycle = "2.11.0"
