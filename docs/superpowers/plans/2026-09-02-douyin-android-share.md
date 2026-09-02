@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 交付正式签名的“极风小助手”Android APK，让用户主动选择抖音好友或群，发送一个审核通过、可重复打开、最终展示微信二维码的固定链接卡片。
+**Goal:** 交付正式签名的“极风小助手”Android APK，让用户主动选择抖音好友或群，发送一个审核通过、可重复打开、直接展示真实应用功能说明的固定链接卡片。
 
-**Architecture:** 从 `codex/card-jump-only` 创建独立实现分支，在现有 H5 二维码链路旁新增 `android/` 工程。Android UI 只依赖纯 Kotlin 卡片模型和分享网关；ByteDance SDK 被隔离在 `douyin/` 适配层，生产 URL、Client Key 和签名从未跟踪的本机配置注入。
+**Architecture:** 从 `codex/card-jump-only` 创建独立实现分支，新增无脚本、无外链、无重定向的合规静态审核页和独立 `android/` 工程。Android UI 只依赖纯 Kotlin 卡片模型和分享网关；ByteDance SDK 被隔离在 `douyin/` 适配层，审核页 URL、Client Key 和签名从未跟踪的本机配置注入。
 
 **Tech Stack:** Kotlin 2.2.20、Android Gradle Plugin 8.13.0、Gradle 8.13、JDK 21、Android API 23–36、XML + ViewBinding、AndroidX、ByteDance Open SDK 0.2.0.9、PHPUnit 10、ADB 真机验收。
 
@@ -16,6 +16,8 @@
 - Android 应用 ID 固定为 `com.jixingwangluo.jifengassistant`。
 - 只使用 ByteDance 官方 `0.2.0.9` SDK 和官方 Demo 的联系人分享方式。
 - 第一阶段只分享一个精确审核通过的固定 H5 URL，不提供任意 URL 输入。
+- 审核 URL 固定为 `https://link.bjaajsdad.xyz/douyin/jifeng-assistant`，直接返回 200，不包含微信、二维码、联系方式、下载、外部链接、第三方脚本或自动跳转。
+- 已创建的个人二维码卡片 `https://link.bjaajsdad.xyz/?code=yWi221EG` 保留在自有服务器但绝不提交抖音、绝不写入 Android 分享配置。
 - 第一阶段不实现注册、登录、会员、支付、退款、Webhooks、iOS、鸿蒙或抖音小程序。
 - 不自动发送、不读取私信、不预选联系人、不通过多跳或换域名规避审核。
 - `Client Secret`、access token、keystore、密码、个人微信二维码、APK/AAB 和本机配置不得进入 Git。
@@ -37,6 +39,7 @@
 - Create: `android/app/src/main/java/com/jixingwangluo/jifengassistant/ui/*` — 纯 UI 状态。
 - Create/Modify: `android/app/src/main/java/com/jixingwangluo/jifengassistant/JifengApplication.kt`, `AppGraph.kt`, `MainActivity.kt` — 应用入口和依赖装配。
 - Create: `android/app/src/main/res/layout/activity_main.xml`, `values/strings.xml`, `values/themes.xml`, `drawable/jifeng_assistant_icon.png` — 单屏 UI。
+- Create/Modify: `serve/resources/views/jump/douyin-review.blade.php`, `serve/routes/web.php`, `serve/app/Http/Controllers/JumpController.php`, `serve/tests/Feature/DouyinReviewPageTest.php` — 合规静态审核页及测试。
 - Create: `android/scripts/create-release-keystore.sh`, `write-local-config.sh`, `verify-release-apk.sh`, `test-release-tools.sh` — 本机配置和发布门。
 - Create: `android/app/src/test/**`, `android/app/src/androidTest/**` — 单元和真机 UI 测试。
 - Create: `android/README.md`, `docs/acceptance/2026-09-02-douyin-android-share.md` — 运行说明和非敏感验收记录。
@@ -285,9 +288,9 @@ Write absolute `storeFile`, `storePassword`, `keyAlias=jifengassistant`, `keyPas
 ```properties
 sdk.dir=/opt/homebrew/share/android-commandlinetools
 DOUYIN_CLIENT_KEY=awm0sswt6y17zkhu
-DOUYIN_APPROVED_SHARE_URL=https://link.example.test/?code=abc12345
-DOUYIN_CARD_TITLE=添加微信
-DOUYIN_CARD_DESCRIPTION=长按识别二维码，添加我为好友
+DOUYIN_APPROVED_SHARE_URL=https://link.example.test/douyin/jifeng-assistant
+DOUYIN_CARD_TITLE=极风小助手
+DOUYIN_CARD_DESCRIPTION=已审核链接的管理与分享工具
 DOUYIN_CARD_THUMB_URL=
 ```
 
@@ -322,67 +325,120 @@ git commit -m "build: add secure Android release signing"
 
 ---
 
-### Task 3: Provision and submit one permanent production card
+### Task 3: Build, deploy and submit the compliant static review page
 
 **Files:**
-- Local only: `$HOME/.config/jifeng-assistant/wechat-qr.jpg`
+- Create: `serve/resources/views/jump/douyin-review.blade.php`
+- Modify: `serve/routes/web.php`
+- Modify: `serve/app/Http/Controllers/JumpController.php`
+- Create: `serve/tests/Feature/DouyinReviewPageTest.php`
+- Modify: `android/scripts/write-local-config.sh`
+- Modify: `android/scripts/test-release-tools.sh`
 - Local only: `android/local.properties`
-- No tracked QR, token or secret files.
 
 **Interfaces:**
-- Consumes: user QR file, production admin, card-jump backend.
-- Produces: immutable `LINK_CODE`, candidate `APPROVED_SHARE_URL`, `im.share` review row.
+- Consumes: approved app name/icon/copy, existing Laravel deployment.
+- Produces: `GET /douyin/jifeng-assistant` with HTTP 200 and no diversion content; exact `APPROVED_SHARE_URL`; `im.share` review row.
 
-- [ ] **Step 1: Re-run existing backend tests**
+- [ ] **Step 1: Write the failing page tests**
+
+Create `DouyinReviewPageTest` with independent literal assertions:
+
+```php
+public function test_review_page_is_direct_static_and_truthful(): void
+{
+    $response = $this->get('/douyin/jifeng-assistant');
+    $response->assertOk()
+        ->assertHeader('Referrer-Policy', 'no-referrer')
+        ->assertHeader('X-Content-Type-Options', 'nosniff')
+        ->assertSee('极风小助手')
+        ->assertSee('已审核链接的管理与分享工具')
+        ->assertSee('用户主动选择抖音好友或群聊')
+        ->assertSee('不自动发送')
+        ->assertSee('不读取私信')
+        ->assertSee('合肥极兴网络科技有限公司');
+}
+
+public function test_review_page_has_no_diversion_or_redirect_surface(): void
+{
+    $html = $this->get('/douyin/jifeng-assistant')->assertOk()->getContent();
+    foreach (['微信', '二维码', '扫码', '加好友', '下载', 'http-equiv="refresh', 'window.location', '<script', '<a '] as $forbidden) {
+        $this->assertStringNotContainsString($forbidden, $html);
+    }
+}
+```
+
+- [ ] **Step 2: Run RED**
 
 ```bash
-cd .worktrees/douyin-android-share
-docker compose -f compose.test.yaml up -d --wait
+cd serve
+bin/test-env vendor/bin/phpunit tests/Feature/DouyinReviewPageTest.php
+```
+
+Expected: route returns 404 because the page does not exist.
+
+- [ ] **Step 3: Implement the minimal static page**
+
+Add `GET /douyin/jifeng-assistant` through `JumpController::douyinReview`. Return a Blade view with CSP `default-src 'self'; img-src 'self'; style-src 'unsafe-inline'; script-src 'none'; connect-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'`, plus no-referrer and nosniff headers.
+
+The Blade file uses the approved local app icon and contains only the exact factual copy tested above. It has no anchor, form, script, meta refresh, QR, contact details, download or third-party asset.
+
+- [ ] **Step 4: Update Android local-config defaults**
+
+Change `write-local-config.sh` and its real behavioral test to emit:
+
+```properties
+DOUYIN_CARD_TITLE=极风小助手
+DOUYIN_CARD_DESCRIPTION=已审核链接的管理与分享工具
+```
+
+Run the script test and prove it preserves pre-existing local config as established in Task 2.
+
+- [ ] **Step 5: Run GREEN and regression tests**
+
+```bash
 cd serve
 bin/test-env vendor/bin/phpunit \
-  tests/Feature/CardJumpOnlyTest.php tests/Unit/Services/LinkShareUrlTest.php
+  tests/Feature/DouyinReviewPageTest.php \
+  tests/Feature/CardJumpOnlyTest.php \
+  tests/Unit/Services/LinkShareUrlTest.php
+cd ../android
+bash scripts/test-release-tools.sh
 ```
 
-Expected: PASS; stop if membership, URL or QR behavior regresses.
+Expected: all page/card tests and script checks pass.
 
-- [ ] **Step 2: Preserve the personal QR outside Git**
+- [ ] **Step 6: Commit and pass task review before deployment**
 
 ```bash
-mkdir -p "$HOME/.config/jifeng-assistant"
-install -m 600 /var/folders/rn/7502v_hs77g5zskts3mctn080000gn/T/codex-clipboard-1cbbe026-d986-48ad-9c25-cd298430828d.jpg \
-  "$HOME/.config/jifeng-assistant/wechat-qr.jpg"
+git add serve/routes/web.php serve/app/Http/Controllers/JumpController.php \
+        serve/resources/views/jump/douyin-review.blade.php \
+        serve/tests/Feature/DouyinReviewPageTest.php \
+        android/scripts/write-local-config.sh android/scripts/test-release-tools.sh
+git diff --cached --check
+git commit -m "feat: add compliant Douyin review page"
 ```
 
-Verify image dimensions and scan locally; do not print QR payload.
+- [ ] **Step 7: Deploy the reviewed commit**
 
-- [ ] **Step 3: Create the fixed production card**
+Deploy through the existing release workflow to `link.bjaajsdad.xyz`. Verify the server commit/release identity first, preserve rollback, and do not modify the old QR card ID 3.
 
-Immediately before uploading the personal QR, confirm the file and destination `https://link.bjaajsdad.xyz`. In the existing admin create one enabled `LANDING_MINI` card with title `添加微信`, subtitle `长按识别二维码，添加我为好友`, exactly one QR, no mini ID, `expired_at=null`, `uv_limit_num=null`, sequential mode and cumulative UV mode.
-
-Read back the saved record and canonical URL; a success toast is not proof.
-
-- [ ] **Step 4: Verify the chain**
-
-With the actual `share_url` and parsed `link_code`:
+- [ ] **Step 8: Verify production page and update local config**
 
 ```bash
-curl -fsSI "$share_url" | grep -i "location: /j/$link_code"
-curl -fsS "https://link.bjaajsdad.xyz/j/$link_code" | grep -F '/api/link-target/'
-curl -fsS "https://link.bjaajsdad.xyz/qr/$link_code?visitor_token=invalid" | grep -F '正在加载二维码'
+review_url='https://link.bjaajsdad.xyz/douyin/jifeng-assistant'
+curl -fsSI "$review_url" | grep -F 'HTTP/2 200'
+curl -fsS "$review_url" | grep -F '极风小助手'
+curl -fsS "$review_url" | grep -F '已审核链接的管理与分享工具'
+cd android
+bash scripts/write-local-config.sh /opt/homebrew/share/android-commandlinetools "$review_url" ''
 ```
 
-Open the real URL on the connected phone and verify it reaches the intended QR page. An invalid token must not expose QR data.
+Open the exact page on the connected phone and confirm it stays on the same URL with no redirect.
 
-- [ ] **Step 5: Persist the exact URL locally**
+- [ ] **Step 9: Submit exact URL for review**
 
-```bash
-cd .worktrees/douyin-android-share/android
-bash scripts/write-local-config.sh /opt/homebrew/share/android-commandlinetools "$share_url" ''
-```
-
-- [ ] **Step 6: Submit exact URL for review**
-
-Immediately before clicking “提交”, confirm the exact URL and destination application. Submit it under `im.share → 分享链接管理`, then read back `审核中`, `已通过`, or the exact rejection reason. Do not alter the URL after submission.
+Immediately before clicking “提交”, confirm the exact review URL and destination application. Submit it under `im.share → 分享链接管理`, then read back `审核中`, `已通过`, or the exact rejection reason. Never change the approved page into QR or external-diversion content.
 
 ---
 
@@ -404,9 +460,9 @@ Immediately before clicking “提交”, confirm the exact URL and destination 
 class ApprovedShareCardTest {
     @Test fun acceptsApprovedHttpsCard() {
         val card = ApprovedShareCard.create(
-            "https://link.example.test/?code=abc12345",
-            "添加微信",
-            "长按识别二维码，添加我为好友",
+            "https://link.example.test/douyin/jifeng-assistant",
+            "极风小助手",
+            "已审核链接的管理与分享工具",
             null,
         )
         assertEquals("link.example.test", URI(card.url).host)
@@ -414,10 +470,10 @@ class ApprovedShareCardTest {
 
     @Test fun rejectsUnsafeOrIncompleteCards() {
         assertFailsWith<IllegalArgumentException> {
-            ApprovedShareCard.create("http://link.example.test", "添加微信", "描述", null)
+            ApprovedShareCard.create("http://link.example.test", "极风小助手", "描述", null)
         }
         assertFailsWith<IllegalArgumentException> {
-            ApprovedShareCard.create("https://user@link.example.test/#x", "添加微信", "描述", null)
+            ApprovedShareCard.create("https://user@link.example.test/#x", "极风小助手", "描述", null)
         }
         assertFailsWith<IllegalArgumentException> {
             ApprovedShareCard.create("https://link.example.test", " ", "描述", null)
@@ -773,7 +829,7 @@ Open the app and tap the share button. When Douyin displays contacts/groups, sto
 
 - [ ] **Step 3: Verify recipient and landing**
 
-With the user verify: card visible; title/description/icon correct; card opens approved URL; redirect reaches `/j/{LINK_CODE}` then `/qr/{LINK_CODE}`; QR is readable; reopening works. Sender callback alone is not completion.
+With the user verify: card visible; title/description/icon correct; card opens the exact approved URL with HTTP 200 and no redirect; the page shows the factual application description and contains no diversion content; reopening works. Sender callback alone is not completion.
 
 - [ ] **Step 4: Rotate the exposed Client Secret**
 
@@ -785,7 +841,7 @@ Show passed device evidence and platform statuses. Only after explicit confirmat
 
 - [ ] **Step 6: Write non-sensitive evidence**
 
-The acceptance document records branch/SHA, SDK/build versions, APK SHA-256, signer MD5, package/device/OS/Douyin versions, package/whitelist/link statuses, sender callback, recipient card/open result, QR result, formalization decision and unresolved issues. Exclude Douyin IDs, contact names, QR payload, secrets, passwords, tokens and private screenshots.
+The acceptance document records branch/SHA, SDK/build versions, APK SHA-256, signer MD5, package/device/OS/Douyin versions, package/whitelist/link statuses, sender callback, recipient card/open result, review-page content/no-redirect result, formalization decision and unresolved issues. Exclude Douyin IDs, contact names, personal QR payload, secrets, passwords, tokens and private screenshots.
 
 - [ ] **Step 7: Document build and run final review**
 
@@ -820,7 +876,7 @@ Create a Draft PR to the intended integration branch. Separate automated, platfo
 | Platform | package/signature saved, whitelist authorized, exact URL approved | scopes approved |
 | Sender | user selects recipient and confirms send; callback recorded | app opens Douyin |
 | Recipient | card visible and opens | sender toast |
-| Landing | approved URL reaches readable QR twice | root HTTP 200 |
+| Landing | exact approved URL returns the factual static page twice with no redirect/diversion content | root HTTP 200 |
 | Security | secret rotated, key outside Git, no sensitive evidence committed | `.gitignore` alone |
 | Commercial | user-confirmed formalization reads `正式应用` | test app works |
 
